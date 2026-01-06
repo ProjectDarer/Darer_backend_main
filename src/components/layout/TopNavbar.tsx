@@ -20,7 +20,7 @@ export function TopNavbar() {
         <div className="flex items-center gap-4">
           <Link to="/" className="flex items-center gap-2 group">
             <div className="relative">
-              <img  className='h-8 w-8 relative z-10' src="./logo.png" alt="DARER" />
+              <img  className='h-8 w-8 relative z-10' src="/logo.png" alt="DARER" />
             </div>
             {/* Updated Text Gradient includes Green/Yellow */}
             <span className="text-xl font-bold text-gradient hidden sm:block">DARER</span>

@@ -7,9 +7,12 @@ import { Heart, Bell, Share2, MoreHorizontal, Check, Users, Clock, Star, Gift } 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
+import { toast } from 'sonner';
+
 export default function Channel() {
   const { username } = useParams();
   const [isFollowing, setIsFollowing] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
   const [showChat, setShowChat] = useState(true);
 
   const channel = channels.find(c => c.username === username) || channels[0];
@@ -24,15 +27,15 @@ export default function Channel() {
     <MainLayout>
       <div className="flex h-[calc(100vh-3.5rem)]">
         {/* Main Content */}
-        <div className={cn("flex-1 flex flex-col overflow-hidden", showChat ? "lg:mr-80" : "")}>
+        <div className={cn("flex-1 flex flex-col overflow-y-auto custom-scrollbar", showChat ? "lg:mr-80" : "")}>
           {/* Video Player Area */}
-          <div className="relative aspect-video bg-black flex-shrink-0 group">
-            <img 
-              src={channel.thumbnail} 
+          <div className="relative aspect-video bg-black flex-shrink-0 group max-h-[70vh] w-full mx-auto">
+            <img
+              src={channel.thumbnail}
               alt={channel.streamTitle}
               className="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
             />
-            
+
             {/* Live Badge - Magenta */}
             {channel.isLive && (
               <div className="absolute top-4 left-4 flex items-center gap-2">
@@ -51,16 +54,16 @@ export default function Channel() {
           </div>
 
           {/* Stream Info Bar */}
-          <div className="p-4 border-b border-border bg-twitch-surface relative overflow-hidden">
+          <div className="p-4 border-b border-border bg-twitch-surface relative">
             {/* Subtle background glow */}
             <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--cs-magenta)] via-[var(--cs-cyan)] to-[var(--cs-yellow)] opacity-50" />
-            
-            <div className="flex items-start gap-4 relative z-10">
+
+            <div className="flex flex-wrap items-start gap-4 relative z-10">
               {/* Streamer Avatar with Cyan Ring */}
               <div className="relative flex-shrink-0">
                 <div className="p-0.5 rounded-full bg-gradient-to-br from-[var(--cs-cyan)] to-[var(--cs-green)]">
-                  <img 
-                    src={channel.avatar} 
+                  <img
+                    src={channel.avatar}
                     alt={channel.displayName}
                     className="w-16 h-16 rounded-full border-4 border-background"
                   />
@@ -86,7 +89,7 @@ export default function Channel() {
                 <div className="flex flex-wrap items-center gap-2 text-sm">
                   <span className="text-[var(--cs-green)] hover:underline cursor-pointer font-medium">{channel.category}</span>
                   {channel.tags.map((tag) => (
-                    <span 
+                    <span
                       key={tag}
                       className="px-2 py-0.5 bg-background border border-border text-xs rounded-full hover:border-[var(--cs-cyan)] hover:text-[var(--cs-cyan)] transition-colors cursor-pointer"
                     >
@@ -101,28 +104,49 @@ export default function Channel() {
                 <button
                   className={cn(
                     "px-4 py-2 rounded-md font-bold text-sm flex items-center gap-2 transition-all duration-300",
-                    isFollowing 
-                      ? "bg-secondary text-secondary-foreground hover:bg-secondary/80" 
+                    isFollowing
+                      ? "bg-secondary text-secondary-foreground hover:bg-secondary/80"
                       : "btn-cyber-brand shadow-[0_0_15px_var(--cs-glow-cyan)]"
                   )}
-                  onClick={() => setIsFollowing(!isFollowing)}
+                  onClick={() => {
+                    const newState = !isFollowing;
+                    setIsFollowing(newState);
+                    toast.success(newState ? `Followed ${channel.displayName}` : `Unfollowed ${channel.displayName}`);
+                  }}
                 >
                   <Heart className={cn("h-4 w-4", isFollowing && "fill-current text-[var(--cs-magenta)]")} />
                   {isFollowing ? 'Following' : 'Follow'}
                 </button>
-                
-                <Button 
-                  className="bg-[var(--cs-yellow)] text-black hover:bg-[var(--cs-yellow)]/80 font-bold border-none"
+
+                <Button
+                  className={cn(
+                    "font-bold border-none transition-all duration-300",
+                    isSubscribed
+                      ? "bg-[var(--cs-green)] text-black hover:bg-[var(--cs-green)]/80"
+                      : "bg-[var(--cs-yellow)] text-black hover:bg-[var(--cs-yellow)]/80"
+                  )}
+                  onClick={() => {
+                    const newState = !isSubscribed;
+                    setIsSubscribed(newState);
+                    toast.success(newState ? `Subscribed to ${channel.displayName}!` : `Unsubscribed from ${channel.displayName}`);
+                  }}
                 >
-                  <Star className="h-4 w-4 mr-2" />
-                  Subscribe
+                  <Star className={cn("h-4 w-4 mr-2", isSubscribed && "fill-current")} />
+                  {isSubscribed ? 'Subscribed' : 'Subscribe'}
                 </Button>
-                
+
                 <div className="flex gap-1">
-                  <Button variant="ghost" size="icon" className="hover:text-[var(--cs-cyan)] hover:bg-[var(--cs-cyan)]/10">
+                  <Button variant="ghost" size="icon" className="hover:text-[var(--cs-cyan)] hover:bg-[var(--cs-cyan)]/10"
+                    onClick={() => toast.info("Notifications turned on")}
+                  >
                     <Bell className="h-4 w-4" />
                   </Button>
-                  <Button variant="ghost" size="icon" className="hover:text-[var(--cs-green)] hover:bg-[var(--cs-green)]/10">
+                  <Button variant="ghost" size="icon" className="hover:text-[var(--cs-green)] hover:bg-[var(--cs-green)]/10"
+                    onClick={() => {
+                      navigator.clipboard.writeText(window.location.href);
+                      toast.success("Link copied to clipboard!");
+                    }}
+                  >
                     <Share2 className="h-4 w-4" />
                   </Button>
                   <Button variant="ghost" size="icon" className="hover:text-[var(--cs-magenta)] hover:bg-[var(--cs-magenta)]/10">
@@ -134,14 +158,14 @@ export default function Channel() {
           </div>
 
           {/* About Section */}
-          <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+          <div className="p-4">
             <div className="grid md:grid-cols-3 gap-6">
               {/* About */}
               <div className="md:col-span-2 space-y-4">
                 <div className="bg-twitch-surface rounded-lg p-6 border border-border hover:border-[var(--cs-cyan)]/30 transition-colors">
                   <h3 className="font-semibold mb-3 text-lg text-[var(--cs-cyan)]">About {channel.displayName}</h3>
                   <p className="text-sm text-muted-foreground mb-6 leading-relaxed">{channel.description}</p>
-                  
+
                   <div className="flex gap-8 p-4 bg-background/50 rounded-lg border border-border">
                     <div>
                       <p className="text-2xl font-bold text-foreground">{formatNumber(channel.followers)}</p>
@@ -159,11 +183,12 @@ export default function Channel() {
                   <h3 className="font-semibold mb-3 text-sm uppercase tracking-wider text-muted-foreground">Social Links</h3>
                   <div className="flex flex-wrap gap-3">
                     {['Twitter', 'YouTube', 'Instagram', 'Discord'].map((social) => (
-                      <Button 
-                        key={social} 
-                        variant="outline" 
+                      <Button
+                        key={social}
+                        variant="outline"
                         size="sm"
                         className="border-border hover:border-[var(--cs-yellow)] hover:text-[var(--cs-yellow)] hover:bg-[var(--cs-yellow)]/5"
+                        onClick={() => window.open(`https://${social.toLowerCase()}.com`, '_blank')}
                       >
                         {social}
                       </Button>

@@ -16,11 +16,11 @@ export default function Browse() {
   const [activeTab, setActiveTab] = useState<BrowseTab>('categories');
   const [searchQuery, setSearchQuery] = useState('');
 
-  const filteredCategories = categories.filter(cat => 
+  const filteredCategories = categories.filter(cat =>
     cat.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const filteredChannels = channels.filter(channel => 
+  const filteredChannels = channels.filter(channel =>
     channel.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
     channel.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -41,8 +41,8 @@ export default function Browse() {
             <button
               className={cn(
                 "px-4 py-2 rounded-md font-bold text-sm transition-all duration-300",
-                activeTab === 'categories' 
-                  ? "bg-[var(--cs-cyan)] text-black shadow-[0_0_10px_var(--cs-glow-cyan)]" 
+                activeTab === 'categories'
+                  ? "bg-[var(--cs-cyan)] text-black shadow-[0_0_10px_var(--cs-glow-cyan)]"
                   : "text-muted-foreground hover:text-foreground hover:bg-white/5"
               )}
               onClick={() => setActiveTab('categories')}
@@ -52,8 +52,8 @@ export default function Browse() {
             <button
               className={cn(
                 "px-4 py-2 rounded-md font-bold text-sm transition-all duration-300",
-                activeTab === 'live' 
-                  ? "bg-[var(--cs-magenta)] text-white shadow-[0_0_10px_var(--cs-glow-soft)]" 
+                activeTab === 'live'
+                  ? "bg-[var(--cs-magenta)] text-white shadow-[0_0_10px_var(--cs-glow-soft)]"
                   : "text-muted-foreground hover:text-foreground hover:bg-white/5"
               )}
               onClick={() => setActiveTab('live')}
@@ -82,7 +82,7 @@ export default function Browse() {
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "rounded-none hover:text-[var(--cs-cyan)]", 
+                  "rounded-none hover:text-[var(--cs-cyan)]",
                   viewMode === 'grid' && "bg-[var(--cs-cyan)]/20 text-[var(--cs-cyan)]"
                 )}
                 onClick={() => setViewMode('grid')}
@@ -93,7 +93,7 @@ export default function Browse() {
                 variant="ghost"
                 size="icon"
                 className={cn(
-                  "rounded-none hover:text-[var(--cs-cyan)]", 
+                  "rounded-none hover:text-[var(--cs-cyan)]",
                   viewMode === 'list' && "bg-[var(--cs-cyan)]/20 text-[var(--cs-cyan)]"
                 )}
                 onClick={() => setViewMode('list')}
@@ -111,8 +111,8 @@ export default function Browse() {
               key={tag}
               className={cn(
                 "px-3 py-1.5 rounded-full text-xs font-bold border transition-all duration-300",
-                tag === 'All' 
-                  ? "bg-[var(--cs-yellow)] text-black border-[var(--cs-yellow)] shadow-[0_0_10px_rgba(255,255,0,0.3)]" 
+                tag === 'All'
+                  ? "bg-[var(--cs-yellow)] text-black border-[var(--cs-yellow)] shadow-[0_0_10px_rgba(255,255,0,0.3)]"
                   : "bg-transparent border-border text-muted-foreground hover:border-[var(--cs-cyan)] hover:text-[var(--cs-cyan)] hover:shadow-[0_0_10px_var(--cs-glow-cyan)]"
               )}
             >
@@ -125,21 +125,21 @@ export default function Browse() {
         {activeTab === 'categories' ? (
           <div className={cn(
             "grid gap-4",
-            viewMode === 'grid' 
-              ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6" 
+            viewMode === 'grid'
+              ? "grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
               : "grid-cols-1"
           )}>
             {filteredCategories.map((category, index) => (
               <div key={category.id} style={{ animationDelay: `${index * 30}ms` }}>
-                <CategoryCard category={category} />
+                <CategoryCard category={category} variant={viewMode === 'list' ? 'compact' : 'default'} />
               </div>
             ))}
           </div>
         ) : (
           <div className={cn(
             "grid gap-4",
-            viewMode === 'grid' 
-              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" 
+            viewMode === 'grid'
+              ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
               : "grid-cols-1"
           )}>
             {filteredChannels.map((channel, index) => (
@@ -153,14 +153,14 @@ export default function Browse() {
         {/* Empty State */}
         {((activeTab === 'categories' && filteredCategories.length === 0) ||
           (activeTab === 'live' && filteredChannels.length === 0)) && (
-          <div className="text-center py-20 border-2 border-dashed border-border/50 rounded-xl">
-            <div className="w-20 h-20 bg-[var(--cs-magenta)]/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-[var(--cs-magenta)]/30">
-              <Search className="h-10 w-10 text-[var(--cs-magenta)]" />
+            <div className="text-center py-20 border-2 border-dashed border-border/50 rounded-xl">
+              <div className="w-20 h-20 bg-[var(--cs-magenta)]/10 rounded-full flex items-center justify-center mx-auto mb-4 border border-[var(--cs-magenta)]/30">
+                <Search className="h-10 w-10 text-[var(--cs-magenta)]" />
+              </div>
+              <h3 className="font-bold text-xl mb-2 text-foreground">No results found</h3>
+              <p className="text-muted-foreground max-w-sm mx-auto">We couldn't find any content matching your filters. Try searching for something else or clear your filters.</p>
             </div>
-            <h3 className="font-bold text-xl mb-2 text-foreground">No results found</h3>
-            <p className="text-muted-foreground max-w-sm mx-auto">We couldn't find any content matching your filters. Try searching for something else or clear your filters.</p>
-          </div>
-        )}
+          )}
       </div>
     </MainLayout>
   );

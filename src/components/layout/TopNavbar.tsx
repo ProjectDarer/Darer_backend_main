@@ -5,12 +5,13 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { userProfile, notifications } from '@/data/dummy';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 export function TopNavbar() {
   const [searchQuery, setSearchQuery] = useState('');
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  
+
   const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
@@ -20,7 +21,7 @@ export function TopNavbar() {
         <div className="flex items-center gap-4">
           <Link to="/" className="flex items-center gap-2 group">
             <div className="relative">
-              <img  className='h-8 w-8 relative z-10' src="./logo.png" alt="DARER" />
+              <img className='h-8 w-8 relative z-10' src="/logo.png" alt="DARER" />
             </div>
             {/* Updated Text Gradient includes Green/Yellow */}
             <span className="text-xl font-bold text-gradient hidden sm:block">DARER</span>
@@ -36,12 +37,20 @@ export function TopNavbar() {
               placeholder="Search creators..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && searchQuery.trim()) {
+                  toast.info(`Searching for: ${searchQuery}`);
+                }
+              }}
               className="relative bg-background border-border focus:border-transparent pr-10"
             />
-            <Button 
-              variant="ghost" 
-              size="icon-sm" 
+            <Button
+              variant="ghost"
+              size="icon-sm"
               className="absolute right-1 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-[var(--cs-green)]"
+              onClick={() => {
+                if (searchQuery.trim()) toast.info(`Searching for: ${searchQuery}`);
+              }}
             >
               <Search className="h-4 w-4" />
             </Button>
@@ -57,8 +66,8 @@ export function TopNavbar() {
 
           {/* Notifications */}
           <div className="relative">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               size="icon"
               onClick={() => setShowNotifications(!showNotifications)}
               className="relative btn-cyber-action"
@@ -82,7 +91,7 @@ export function TopNavbar() {
                 </div>
                 <div className="max-h-80 overflow-y-auto">
                   {notifications.slice(0, 5).map((notif) => (
-                    <div 
+                    <div
                       key={notif.id}
                       className={cn(
                         "p-3 hover:bg-white/5 transition-colors cursor-pointer border-b border-border last:border-0",
@@ -107,14 +116,14 @@ export function TopNavbar() {
 
           {/* User Menu */}
           <div className="relative">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               className="gap-2 px-2 btn-cyber-action border-none hover:bg-white/5"
               onClick={() => setShowUserMenu(!showUserMenu)}
             >
               <div className="relative">
-                <img 
-                  src={userProfile.avatar} 
+                <img
+                  src={userProfile.avatar}
                   alt={userProfile.displayName}
                   className="w-7 h-7 rounded-full ring-2 ring-[var(--cs-magenta)]"
                 />
@@ -122,10 +131,10 @@ export function TopNavbar() {
               </div>
               <ChevronDown className="h-4 w-4 hidden sm:block" />
             </Button>
-            
+
             {/* User Dropdown */}
             {showUserMenu && (
-               <div className="absolute right-0 top-full mt-2 w-56 bg-twitch-surface border border-[var(--cs-cyan)]/30 rounded-lg shadow-xl animate-fade-in overflow-hidden z-50">
+              <div className="absolute right-0 top-full mt-2 w-56 bg-twitch-surface border border-[var(--cs-cyan)]/30 rounded-lg shadow-xl animate-fade-in overflow-hidden z-50">
                 {/* ... existing user menu content ... */}
                 <div className="p-3 border-b border-border">
                   <div className="flex items-center gap-3">

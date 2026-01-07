@@ -15,7 +15,6 @@ export default function Login() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
@@ -24,6 +23,21 @@ export default function Login() {
         setError('Please fill in all fields');
       }
     }, 1500);
+    try{
+      const login_response = fetch("http://localhost:8080/api/login",{
+        method: "POST",
+        headers:{
+          "Content-type":"application/json",   //it tells the browser/server that the data it is sending is raw which is not human readable
+        },
+        body:JSON.stringify({
+          email: email,
+          password:password,
+        }),
+      });
+    }
+    catch(error){
+      console.error("error occured while making login post request: ",error);
+    }
   };
 
   return (

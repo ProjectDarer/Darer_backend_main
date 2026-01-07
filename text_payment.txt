@@ -1,0 +1,31 @@
+Frontend (React)
+   |
+   |-- POST /create-payment-intent (amount)
+   |
+Backend (Node + Stripe)
+   |
+   |-- Validate amount
+   |-- Create PaymentIntent
+   |-- Save pending payment in DB
+   |-- Return client_secret
+   |
+Frontend
+   |
+   |-- stripe.confirmCardPayment(client_secret)
+   |
+Stripe
+   |
+   |-- Payment succeeds/fails
+   |
+Frontend
+   |
+   |-- Show immediate status
+   |
+Stripe Webhook  ⭐ IMPORTANT
+   |
+   |-- payment_intent.succeeded
+   |-- payment_intent.payment_failed
+   |
+Backend
+   |
+   |-- Update DB (FINAL truth)

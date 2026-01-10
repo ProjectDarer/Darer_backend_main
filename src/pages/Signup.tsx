@@ -45,7 +45,7 @@ export default function Signup() {
           username:username,
           email: email,
           password:password,
-          // dob:dob,
+          dob:dob,
         }),
       });
     }

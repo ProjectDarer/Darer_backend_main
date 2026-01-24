@@ -43,8 +43,8 @@ export default function Following() {
                 >
                   {/* Thumbnail - Responsive Width */}
                   <div className="relative w-24 md:w-32 aspect-video rounded overflow-hidden flex-shrink-0">
-                    <img 
-                      src={channel.thumbnail} 
+                    <img
+                      src={channel.thumbnail}
                       alt={channel.streamTitle}
                       className="w-full h-full object-cover"
                     />
@@ -55,8 +55,8 @@ export default function Following() {
 
                   {/* Avatar - Hidden on very small mobile if needed, or smaller */}
                   <div className="relative flex-shrink-0 hidden xs:block">
-                    <img 
-                      src={channel.avatar} 
+                    <img
+                      src={channel.avatar}
                       alt={channel.displayName}
                       className="w-8 h-8 md:w-10 md:h-10 rounded-full ring-2 ring-[var(--cs-magenta)]"
                     />
@@ -66,13 +66,13 @@ export default function Following() {
                   {/* Info */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                       <h3 className="font-semibold truncate text-sm md:text-base group-hover:text-[var(--cs-cyan)] transition-colors">
+                      <h3 className="font-semibold truncate text-sm md:text-base group-hover:text-[var(--cs-cyan)] transition-colors">
                         {channel.displayName}
                       </h3>
                       {/* Mobile Avatar Fallback if hidden above */}
                       <img src={channel.avatar} alt="" className="w-5 h-5 rounded-full xs:hidden ring-1 ring-[var(--cs-magenta)]" />
                     </div>
-                   
+
                     <p className="text-xs md:text-sm text-muted-foreground truncate group-hover:text-foreground transition-colors">{channel.streamTitle}</p>
                     <p className="text-xs text-[var(--cs-green)] mt-0.5">{channel.category}</p>
                   </div>
@@ -80,17 +80,17 @@ export default function Following() {
                   {/* Viewers & Actions */}
                   <div className="flex flex-col items-end gap-1 md:gap-0">
                     <div className="flex items-center gap-1 text-[var(--cs-cyan)] mb-1 md:mb-0">
-                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[var(--cs-cyan)] rounded-full animate-pulse-live" />
-                        <span className="font-medium text-xs md:text-sm">{formatViewers(channel.viewers)}</span>
+                      <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[var(--cs-cyan)] rounded-full animate-pulse-live" />
+                      <span className="font-medium text-xs md:text-sm">{formatViewers(channel.viewers)}</span>
                     </div>
-                    
-                    <Button 
-                        variant="ghost" 
-                        size="icon"
-                        onClick={(e) => e.preventDefault()}
-                        className="h-8 w-8 hover:text-[var(--cs-magenta)] -mr-2 md:mr-0"
+
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={(e) => e.preventDefault()}
+                      className="h-8 w-8 hover:text-[var(--cs-magenta)] -mr-2 md:mr-0"
                     >
-                        <MoreHorizontal className="h-4 w-4" />
+                      <MoreHorizontal className="h-4 w-4" />
                     </Button>
                   </div>
                 </Link>
@@ -107,7 +107,7 @@ export default function Following() {
               {offlineChannels.length}
             </span>
           </div>
-          
+
           {offlineChannels.length > 0 ? (
             <div className="space-y-2">
               {offlineChannels.map((channel) => (
@@ -118,8 +118,8 @@ export default function Following() {
                 >
                   {/* Avatar */}
                   <div className="relative flex-shrink-0">
-                    <img 
-                      src={channel.avatar} 
+                    <img
+                      src={channel.avatar}
                       alt={channel.displayName}
                       className="w-8 h-8 md:w-10 md:h-10 rounded-full opacity-75 grayscale group-hover:grayscale-0 transition-all"
                     />
@@ -137,8 +137,8 @@ export default function Following() {
                   <span className="text-xs md:text-sm text-muted-foreground hidden sm:block">Offline</span>
 
                   {/* Actions */}
-                  <Button 
-                    variant="ghost" 
+                  <Button
+                    variant="ghost"
                     size="icon"
                     className="h-8 w-8 -mr-2 md:mr-0"
                     onClick={(e) => e.preventDefault()}
@@ -162,8 +162,8 @@ export default function Following() {
             <Heart className="h-16 w-16 text-[var(--cs-magenta)]/50 mx-auto mb-4" />
             <h3 className="font-semibold text-lg mb-2">No channels followed</h3>
             <p className="text-muted-foreground mb-4">Start following channels to see them here</p>
-            <Link to="/browse">
-               <button className="btn-cyber-brand">Browse Channels</button>
+            <Link to="/">
+              <button className="btn-cyber-brand">Discover Creators</button>
             </Link>
           </div>
         )}

@@ -1,13 +1,11 @@
 import { MainLayout } from '@/components/layout/MainLayout';
 import { StreamCard } from '@/components/cards/StreamCard';
-import { CategoryCard } from '@/components/cards/CategoryCard';
-import { channels, categories } from '@/data/dummy';
+import { channels } from '@/data/dummy';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
   const liveChannels = channels.filter(c => c.isLive);
-  const featuredCategories = categories.slice(0, 8);
 
   return (
     <MainLayout>
@@ -16,8 +14,8 @@ export default function Home() {
         <section className="relative rounded-xl overflow-hidden bg-gradient-to-r from-[var(--cs-magenta)]/20 to-background border border-[var(--cs-magenta)]/20">
           <div className="grid lg:grid-cols-2 gap-6 p-6">
             <div className="aspect-video rounded-lg overflow-hidden bg-twitch-surface relative group">
-              <img 
-                src={liveChannels[0]?.thumbnail} 
+              <img
+                src={liveChannels[0]?.thumbnail}
                 alt={liveChannels[0]?.streamTitle}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
@@ -34,8 +32,8 @@ export default function Home() {
             <div className="flex flex-col justify-center">
               <div className="flex items-center gap-3 mb-4">
                 <div className="relative">
-                  <img 
-                    src={liveChannels[0]?.avatar} 
+                  <img
+                    src={liveChannels[0]?.avatar}
                     alt={liveChannels[0]?.displayName}
                     className="w-12 h-12 rounded-full border-2 border-[var(--cs-cyan)]"
                   />
@@ -54,7 +52,7 @@ export default function Home() {
                   </span>
                 ))}
               </div>
-              <Link 
+              <Link
                 to={`/channel/${liveChannels[0]?.username}`}
                 className="inline-flex items-center gap-2 text-[var(--cs-cyan)] hover:text-[var(--cs-green)] hover:underline font-medium transition-colors"
               >
@@ -68,37 +66,11 @@ export default function Home() {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold border-l-4 border-[var(--cs-magenta)] pl-3">Live Channels</h2>
-            <Link 
-              to="/browse" 
-              className="text-sm text-[var(--cs-cyan)] hover:underline flex items-center gap-1"
-            >
-              Show All <ChevronRight className="h-4 w-4" />
-            </Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
             {liveChannels.slice(0, 8).map((channel, index) => (
               <div key={channel.id} style={{ animationDelay: `${index * 50}ms` }}>
                 <StreamCard channel={channel} />
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Categories Section */}
-        <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold border-l-4 border-[var(--cs-green)] pl-3">Browse Categories</h2>
-            <Link 
-              to="/browse" 
-              className="text-sm text-[var(--cs-cyan)] hover:underline flex items-center gap-1"
-            >
-              Show All <ChevronRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4">
-            {featuredCategories.map((category, index) => (
-              <div key={category.id} style={{ animationDelay: `${index * 50}ms` }}>
-                <CategoryCard category={category} />
               </div>
             ))}
           </div>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Send, Settings, Users, Gift, Smile } from 'lucide-react';
+import { toast } from 'sonner';
+import { Send, Settings, Users, Gift, Smile, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { chatMessages, ChatMessage } from '@/data/dummy';
@@ -15,7 +16,7 @@ export function ChatPanel({ className }: ChatPanelProps) {
 
   const handleSend = () => {
     if (!message.trim()) return;
-    
+
     const newMessage: ChatMessage = {
       id: Date.now().toString(),
       username: 'mystream',
@@ -25,7 +26,7 @@ export function ChatPanel({ className }: ChatPanelProps) {
       badges: ['broadcaster'],
       timestamp: new Date(),
     };
-    
+
     setMessages([...messages, newMessage]);
     setMessage('');
   };
@@ -65,19 +66,19 @@ export function ChatPanel({ className }: ChatPanelProps) {
         {messages.map((msg) => (
           <div key={msg.id} className="group hover:bg-white/5 rounded px-2 py-1 -mx-2 transition-colors">
             <div className="inline-block align-top">
-                <span className="inline-flex items-center gap-1.5 align-baseline mr-1.5">
+              <span className="inline-flex items-center gap-1.5 align-baseline mr-1.5">
                 {msg.badges.map((badge) => (
-                    <span key={badge} className="align-middle">{getBadgeIcon(badge)}</span>
+                  <span key={badge} className="align-middle">{getBadgeIcon(badge)}</span>
                 ))}
-                <span 
-                    className="font-bold text-sm cursor-pointer hover:underline shadow-sm"
-                    style={{ color: msg.color }}
+                <span
+                  className="font-bold text-sm cursor-pointer hover:underline shadow-sm"
+                  style={{ color: msg.color }}
                 >
-                    {msg.displayName}
+                  {msg.displayName}
                 </span>
                 <span className="text-muted-foreground text-xs">:</span>
-                </span>
-                <span className="text-sm text-foreground/90 break-words leading-relaxed">{msg.message}</span>
+              </span>
+              <span className="text-sm text-foreground/90 break-words leading-relaxed">{msg.message}</span>
             </div>
           </div>
         ))}
@@ -98,12 +99,15 @@ export function ChatPanel({ className }: ChatPanelProps) {
               <Button variant="ghost" size="icon-sm" className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-yellow)]">
                 <Smile className="h-4 w-4" />
               </Button>
+              <Button variant="ghost" size="icon-sm" className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-cyan)]" onClick={() => toast.success("Select tip amount...")}>
+                <Zap className="h-4 w-4" />
+              </Button>
               <Button variant="ghost" size="icon-sm" className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-magenta)]">
                 <Gift className="h-4 w-4" />
               </Button>
             </div>
           </div>
-          <Button 
+          <Button
             className="btn-cyber-brand px-3"
             size="icon"
             onClick={handleSend}
@@ -113,12 +117,12 @@ export function ChatPanel({ className }: ChatPanelProps) {
           </Button>
         </div>
         <div className="flex justify-between items-center mt-2">
-             <p className="text-[10px] text-[var(--cs-green)] font-mono">
-              Balance: 1,200 bits
-            </p>
-             <p className="text-[10px] text-muted-foreground">
-              Chat rules apply
-            </p>
+          <p className="text-[10px] text-[var(--cs-green)] font-mono">
+            Balance: 1,200 bits
+          </p>
+          <p className="text-[10px] text-muted-foreground">
+            Chat rules apply
+          </p>
         </div>
       </div>
     </div>

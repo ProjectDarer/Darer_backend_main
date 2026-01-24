@@ -3,7 +3,7 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { ChatPanel } from '@/components/chat/ChatPanel';
 import { Button } from '@/components/ui/button';
 import { channels } from '@/data/dummy';
-import { Heart, Bell, Share2, MoreHorizontal, Check, Users, Clock, Star, Gift } from 'lucide-react';
+import { Heart, Bell, Share2, MoreHorizontal, Check, Users, Clock, Star, Gift, Zap, Sword } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -136,6 +136,22 @@ export default function Channel() {
                 </Button>
 
                 <div className="flex gap-1">
+                  <Button
+                    className="bg-[var(--cs-yellow)] text-black font-bold hover:bg-[var(--cs-yellow)]/80 transition-all border-none"
+                    onClick={() => toast.info("Dare system opening soon!", { description: "You will be able to set challenges for this streamer!" })}
+                  >
+                    <Sword className="h-4 w-4 mr-2" />
+                    Send Dare
+                  </Button>
+
+                  <Button
+                    className="bg-[var(--cs-cyan)] text-black font-bold hover:bg-[var(--cs-cyan)]/80 transition-all border-none"
+                    onClick={() => toast.success("Opening Tip Menu...", { description: "Support the creator with a custom tip." })}
+                  >
+                    <Zap className="h-4 w-4 mr-2" />
+                    Send Tip
+                  </Button>
+
                   <Button variant="ghost" size="icon" className="hover:text-[var(--cs-cyan)] hover:bg-[var(--cs-cyan)]/10"
                     onClick={() => toast.info("Notifications turned on")}
                   >

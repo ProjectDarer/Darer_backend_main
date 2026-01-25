@@ -15,6 +15,8 @@ import Settings from "./pages/Settings";
 import Analytics from "./pages/Analytics";
 import Wallet from "./pages/Wallet";
 import LiveStudio from "./pages/LiveStudio";
+import Search from "./pages/Search";
+import Leaderboard from "./pages/Leaderboard";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +40,8 @@ const App = () => (
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/wallet" element={<Wallet />} />
           <Route path="/studio" element={<LiveStudio />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

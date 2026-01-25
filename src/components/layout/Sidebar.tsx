@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   Home, Heart, Bell, Settings, LayoutDashboard,
-  ChevronLeft, ChevronRight, Radio, Wallet as WalletIcon
+  ChevronLeft, ChevronRight, Radio, Wallet as WalletIcon, Trophy
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { followedChannels } from '@/data/dummy';
@@ -12,6 +12,7 @@ const navItems = [
   { icon: Home, label: 'Home', path: '/', color: 'text-[var(--cs-cyan)]', activeBg: 'bg-[var(--cs-cyan)]/20' },
   { icon: Heart, label: 'Following', path: '/following', color: 'text-[var(--cs-yellow)]', activeBg: 'bg-[var(--cs-yellow)]/20' },
   { icon: WalletIcon, label: 'Wallet', path: '/wallet', color: 'text-[var(--cs-green)]', activeBg: 'bg-[var(--cs-green)]/20' },
+  { icon: Trophy, label: 'Leaderboard', path: '/leaderboard', color: 'text-[var(--cs-yellow)]', activeBg: 'bg-[var(--cs-yellow)]/20' },
   { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', color: 'text-[var(--cs-magenta)]', activeBg: 'bg-[var(--cs-magenta)]/20' },
 ];
 

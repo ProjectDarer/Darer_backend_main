@@ -2,20 +2,20 @@ import { useState } from 'react';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 import { userProfile } from '@/data/dummy';
-import { 
-  User, 
-  Shield, 
-  Bell, 
-  Palette, 
-  Link2, 
+import {
+  User,
+  Shield,
+  Bell,
+  Palette,
   Save,
   Camera,
   Check
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-type SettingsTab = 'general' | 'security' | 'notifications' | 'appearance' | 'connections';
+type SettingsTab = 'general' | 'security' | 'notifications' | 'appearance';
 
 export default function Settings() {
   const [activeTab, setActiveTab] = useState<SettingsTab>('general');
@@ -24,13 +24,14 @@ export default function Settings() {
   const [email, setEmail] = useState(userProfile.email);
   const [bio, setBio] = useState(userProfile.bio);
   const [saved, setSaved] = useState(false);
+  const [theme, setTheme] = useState('Dark');
+  const [accentColor, setAccentColor] = useState('#00fff7');
 
   const tabs = [
     { id: 'general' as const, label: 'General', icon: User },
     { id: 'security' as const, label: 'Security', icon: Shield },
     { id: 'notifications' as const, label: 'Notifications', icon: Bell },
     { id: 'appearance' as const, label: 'Appearance', icon: Palette },
-    { id: 'connections' as const, label: 'Connections', icon: Link2 },
   ];
 
   const handleSave = () => {
@@ -56,8 +57,8 @@ export default function Settings() {
                 onClick={() => setActiveTab(tab.id)}
                 className={cn(
                   "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors text-left",
-                  activeTab === tab.id 
-                    ? "bg-[var(--cs-cyan)]/20 text-[var(--cs-cyan)] border-l-2 border-[var(--cs-cyan)]" 
+                  activeTab === tab.id
+                    ? "bg-[var(--cs-cyan)]/20 text-[var(--cs-cyan)] border-l-2 border-[var(--cs-cyan)]"
                     : "hover:bg-twitch-hover text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -72,12 +73,12 @@ export default function Settings() {
             {activeTab === 'general' && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-[var(--cs-cyan)]">Profile Settings</h2>
-                
+
                 {/* Avatar */}
                 <div className="flex items-center gap-4">
                   <div className="relative">
-                    <img 
-                      src={userProfile.avatar} 
+                    <img
+                      src={userProfile.avatar}
                       alt={userProfile.displayName}
                       className="w-20 h-20 rounded-full ring-2 ring-[var(--cs-magenta)]"
                     />
@@ -95,7 +96,7 @@ export default function Settings() {
                 <div className="grid gap-4">
                   <div>
                     <label className="text-sm font-medium mb-2 block text-[var(--cs-cyan)]">Username</label>
-                    <Input 
+                    <Input
                       value={username}
                       onChange={(e) => setUsername(e.target.value)}
                       className="bg-black/20 focus-visible:ring-[var(--cs-cyan)]"
@@ -105,7 +106,7 @@ export default function Settings() {
 
                   <div>
                     <label className="text-sm font-medium mb-2 block text-[var(--cs-green)]">Display Name</label>
-                    <Input 
+                    <Input
                       value={displayName}
                       onChange={(e) => setDisplayName(e.target.value)}
                       className="bg-black/20 focus-visible:ring-[var(--cs-green)]"
@@ -114,7 +115,7 @@ export default function Settings() {
 
                   <div>
                     <label className="text-sm font-medium mb-2 block">Email</label>
-                    <Input 
+                    <Input
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -124,7 +125,7 @@ export default function Settings() {
 
                   <div>
                     <label className="text-sm font-medium mb-2 block text-[var(--cs-yellow)]">Bio</label>
-                    <textarea 
+                    <textarea
                       className="w-full h-24 px-3 py-2 bg-black/20 border border-input rounded-md text-sm resize-none focus:outline-none focus:ring-2 focus:ring-[var(--cs-yellow)]"
                       value={bio}
                       onChange={(e) => setBio(e.target.value)}
@@ -173,36 +174,35 @@ export default function Settings() {
             {activeTab === 'appearance' && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-[var(--cs-cyan)]">Appearance</h2>
-                
+
                 <div className="space-y-4">
                   <div className="p-4 bg-background/50 rounded-lg border border-border">
-                    <h3 className="font-medium mb-4">Theme</h3>
-                    <div className="grid grid-cols-3 gap-3">
-                      {['Dark', 'Light', 'System'].map((theme) => (
-                        <button 
-                          key={theme}
-                          className={cn(
-                            "p-4 rounded-lg border-2 transition-colors",
-                            theme === 'Dark' ? "border-[var(--cs-cyan)] bg-[var(--cs-cyan)]/10" : "border-border hover:border-muted-foreground"
-                          )}
-                        >
-                          <p className="font-medium">{theme}</p>
-                        </button>
-                      ))}
+                    <h3 className="font-medium mb-2">Theme Mode</h3>
+                    <div className="flex items-center gap-3 text-[var(--cs-cyan)] bg-[var(--cs-cyan)]/10 p-4 rounded-xl border border-[var(--cs-cyan)]/30">
+                      <Shield className="h-5 w-5" />
+                      <span className="font-black italic uppercase tracking-tighter">Dark Mode Enforced</span>
                     </div>
+                    <p className="text-xs text-muted-foreground mt-3">DARER is optimized for high-stakes competition and looks best in high-contrast dark mode.</p>
                   </div>
 
                   <div className="p-4 bg-background/50 rounded-lg border border-border">
                     <h3 className="font-medium mb-4">Accent Color</h3>
                     <div className="flex gap-3">
-                      {/* Updated colors to match brand variables */}
                       {['#ff00ff', '#00fff7', '#39ff14', '#ffff00'].map((color) => (
-                        <button 
+                        <button
                           key={color}
+                          onClick={() => {
+                            setAccentColor(color);
+                            document.documentElement.style.setProperty('--cs-cyan', color);
+                            toast.success("Accent color updated!", {
+                              style: { border: `1px solid ${color}`, color: color }
+                            });
+                          }}
                           className={cn(
-                            "w-10 h-10 rounded-full transition-transform hover:scale-110 ring-2 ring-transparent hover:ring-white",
+                            "w-10 h-10 rounded-full transition-all duration-300 hover:scale-110 ring-2 ring-offset-2 ring-offset-background",
+                            accentColor === color ? "ring-white scale-110" : "ring-transparent hover:ring-white/50"
                           )}
-                          style={{ backgroundColor: color, boxShadow: `0 0 10px ${color}` }}
+                          style={{ backgroundColor: color, boxShadow: `0 0 15px ${color}44` }}
                         />
                       ))}
                     </div>
@@ -210,11 +210,11 @@ export default function Settings() {
                 </div>
               </div>
             )}
-            
+
             {activeTab === 'notifications' && (
-                 <div className="space-y-6">
+              <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-[var(--cs-cyan)]">Notification Preferences</h2>
-                 <div className="space-y-4">
+                <div className="space-y-4">
                   {[
                     { id: 'email', label: 'Email Notifications', desc: 'Receive email updates about your channel' },
                     { id: 'push', label: 'Push Notifications', desc: 'Get notified when streamers go live' },
@@ -232,33 +232,7 @@ export default function Settings() {
                 </div>
               </div>
             )}
-            
-             {activeTab === 'connections' && (
-              <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-[var(--cs-cyan)]">Connected Accounts</h2>
-                <div className="space-y-4">
-                  {[
-                    { name: 'Google', connected: true },
-                    { name: 'Discord', connected: true },
-                    { name: 'Twitter', connected: false },
-                  ].map((account) => (
-                    <div key={account.name} className="flex items-center justify-between p-4 bg-background/50 border border-border rounded-lg">
-                      <div className="flex items-center gap-3">
-                        <div>
-                          <p className="font-medium">{account.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {account.connected ? <span className="text-[var(--cs-green)]">Connected</span> : 'Not connected'}
-                          </p>
-                        </div>
-                      </div>
-                      <Button variant={account.connected ? 'destructive' : 'outline'} className={!account.connected ? "border-[var(--cs-cyan)] text-[var(--cs-cyan)] hover:bg-[var(--cs-cyan)]/10" : ""}>
-                        {account.connected ? 'Disconnect' : 'Connect'}
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+
 
           </div>
         </div>

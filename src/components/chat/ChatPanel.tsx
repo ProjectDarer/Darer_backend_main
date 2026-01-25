@@ -5,14 +5,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { chatMessages, ChatMessage } from '@/data/dummy';
 import { cn } from '@/lib/utils';
+import { TipModal } from '@/components/modals/TipModal';
+import { useLocation } from 'react-router-dom';
 
 interface ChatPanelProps {
   className?: string;
 }
 
 export function ChatPanel({ className }: ChatPanelProps) {
+  const location = useLocation();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState<ChatMessage[]>(chatMessages);
+  const [isTipModalOpen, setIsTipModalOpen] = useState(false);
+
+  // Determine streamer name from path for modal
+  const streamerName = location.pathname.split('/').pop() || 'the creator';
 
   const handleSend = () => {
     if (!message.trim()) return;
@@ -99,7 +106,7 @@ export function ChatPanel({ className }: ChatPanelProps) {
               <Button variant="ghost" size="icon-sm" className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-yellow)]">
                 <Smile className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon-sm" className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-cyan)]" onClick={() => toast.success("Select tip amount...")}>
+              <Button variant="ghost" size="icon-sm" className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-cyan)]" onClick={() => setIsTipModalOpen(true)}>
                 <Zap className="h-4 w-4" />
               </Button>
               <Button variant="ghost" size="icon-sm" className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-magenta)]">
@@ -125,6 +132,12 @@ export function ChatPanel({ className }: ChatPanelProps) {
           </p>
         </div>
       </div>
+
+      <TipModal
+        isOpen={isTipModalOpen}
+        onOpenChange={setIsTipModalOpen}
+        streamerName={streamerName}
+      />
     </div>
   );
 }

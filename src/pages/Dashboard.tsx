@@ -218,6 +218,40 @@ export default function Dashboard() {
                 </div>
               </WidgetCard>
 
+              {/* Bounties Board - NEW FOR DARER */}
+              <WidgetCard title="Incoming Dare Requests">
+                <div className="space-y-4">
+                  {[
+                    { id: 'd1', user: 'DareLover9', task: 'Get 5 kills with a crossbow', reward: '2,500 Bits', time: '10m ago' },
+                    { id: 'd2', user: 'QuestKing', task: 'Don\'t use a vehicle for 10 minutes', reward: '1,200 Bits', time: '15m ago' },
+                  ].map((dare) => (
+                    <div key={dare.id} className="p-4 bg-black/40 border border-border rounded-xl flex items-center justify-between group hover:border-[var(--cs-yellow)] transition-all">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 rounded-full bg-[var(--cs-yellow)]/20 flex items-center justify-center font-bold text-[var(--cs-yellow)]">D</div>
+                        <div>
+                          <p className="text-sm font-bold">"{dare.task}"</p>
+                          <p className="text-xs text-muted-foreground">From <span className="text-[var(--cs-cyan)]">{dare.user}</span> • {dare.time}</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-end gap-2 text-right">
+                        <span className="text-sm font-black text-[var(--cs-green)]">{dare.reward}</span>
+                        <div className="flex gap-2">
+                          <Button size="icon-sm" className="h-7 w-7 bg-[var(--cs-green)] text-black hover:bg-[var(--cs-green)]/80" onClick={() => toast.success('Dare Accepted!')}>
+                            <Play className="h-3 w-3" />
+                          </Button>
+                          <Button size="icon-sm" variant="ghost" className="h-7 w-7 hover:bg-red-500/20 hover:text-red-500" onClick={() => toast.info('Dare Ignored')}>
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  <div className="bg-muted/50 p-4 rounded-lg border border-dashed border-border text-center">
+                    <p className="text-xs text-muted-foreground uppercase font-black tracking-widest">3 more requests in queue</p>
+                  </div>
+                </div>
+              </WidgetCard>
+
               {/* Stream Information */}
               <WidgetCard title="Stream Information">
                 <div className="space-y-4">
@@ -389,11 +423,21 @@ export default function Dashboard() {
               {/* Quick Actions */}
               <WidgetCard title="Quick Actions">
                 <div className="grid grid-cols-2 gap-2">
-                  <Button variant="ghost" size="sm" className="justify-start border border-border hover:border-[var(--cs-cyan)] hover:text-[var(--cs-cyan)] hover:bg-[var(--cs-cyan)]/10">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="justify-start border border-border hover:border-[var(--cs-cyan)] hover:text-[var(--cs-cyan)] hover:bg-[var(--cs-cyan)]/10"
+                    onClick={() => toast.success("Opening stream preview...")}
+                  >
                     <Play className="h-4 w-4 mr-2" />
                     Preview
                   </Button>
-                  <Button variant="ghost" size="sm" className="justify-start border border-border hover:border-[var(--cs-magenta)] hover:text-[var(--cs-magenta)] hover:bg-[var(--cs-magenta)]/10">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="justify-start border border-border hover:border-[var(--cs-magenta)] hover:text-[var(--cs-magenta)] hover:bg-[var(--cs-magenta)]/10"
+                    onClick={() => toast.info("Searching for raid targets...")}
+                  >
                     <Radio className="h-4 w-4 mr-2" />
                     Raid
                   </Button>

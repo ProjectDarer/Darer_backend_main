@@ -107,7 +107,7 @@ export function StreamCard({ channel, variant = 'default' }: StreamCardProps) {
             {channel.tags.slice(0, 2).map((tag) => (
               <span
                 key={tag}
-                className="px-1.5 py-0.5 bg-twitch-surface border border-border text-xs text-muted-foreground rounded hover:border-[var(--cs-yellow)] hover:text-[var(--cs-yellow)] transition-colors"
+                className="px-1.5 py-0.5 bg-muted border border-border text-xs text-foreground rounded hover:border-[var(--cs-yellow)] hover:text-[var(--cs-yellow)] transition-colors"
               >
                 {tag}
               </span>

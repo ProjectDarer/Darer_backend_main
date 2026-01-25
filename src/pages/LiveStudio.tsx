@@ -107,6 +107,20 @@ export default function LiveStudio() {
                                         </div>
                                     </div>
 
+                                    {/* Active Dare Overlay - NEW FOR STUDIO */}
+                                    <div className="absolute top-4 right-4 animate-in slide-in-from-right duration-500">
+                                        <div className="bg-[var(--cs-yellow)]/90 backdrop-blur-sm p-3 rounded-lg border border-black/20 shadow-[0_0_20px_var(--cs-glow-cyan)] max-w-[200px]">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <Sword className="h-3 w-3 text-black" />
+                                                <span className="text-[10px] font-black uppercase text-black">Active Dare</span>
+                                            </div>
+                                            <p className="text-xs font-bold text-black leading-tight">"Win using only common loot"</p>
+                                            <div className="mt-2 flex items-center justify-between">
+                                                <span className="text-[10px] font-mono text-black/70 italic">5,000 Bits Bounty</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     {/* Control Overlays (Bottom) */}
                                     <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-3 p-2 bg-black/60 backdrop-blur-md rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity">
                                         <Button
@@ -181,16 +195,32 @@ export default function LiveStudio() {
 
                                 <WidgetCard title="Quick Actions">
                                     <div className="grid grid-cols-2 gap-2">
-                                        <Button variant="outline" className="text-xs h-12 border-border hover:border-[var(--cs-magenta)] hover:bg-[var(--cs-magenta)]/5">
+                                        <Button
+                                            variant="outline"
+                                            className="text-xs h-12 border-border hover:border-[var(--cs-magenta)] hover:bg-[var(--cs-magenta)]/5"
+                                            onClick={() => toast.success("Poll configuration opened!")}
+                                        >
                                             <Activity className="h-4 w-4 mr-2" /> Start Poll
                                         </Button>
-                                        <Button variant="outline" className="text-xs h-12 border-border hover:border-[var(--cs-cyan)] hover:bg-[var(--cs-cyan)]/5">
+                                        <Button
+                                            variant="outline"
+                                            className="text-xs h-12 border-border hover:border-[var(--cs-cyan)] hover:bg-[var(--cs-cyan)]/5"
+                                            onClick={() => toast.success("Shoutout queued!")}
+                                        >
                                             <Share2 className="h-4 w-4 mr-2" /> Shoutout
                                         </Button>
-                                        <Button variant="outline" className="text-xs h-12 border-border hover:border-[var(--cs-green)] hover:bg-[var(--cs-green)]/5">
+                                        <Button
+                                            variant="outline"
+                                            className="text-xs h-12 border-border hover:border-[var(--cs-green)] hover:bg-[var(--cs-green)]/5"
+                                            onClick={() => toast.info("Ad break starting in 30s...")}
+                                        >
                                             <AlertCircle className="h-4 w-4 mr-2" /> Ad Break
                                         </Button>
-                                        <Button variant="outline" className="text-xs h-12 border-border hover:border-[var(--cs-yellow)] hover:bg-[var(--cs-yellow)]/5">
+                                        <Button
+                                            variant="outline"
+                                            className="text-xs h-12 border-border hover:border-[var(--cs-yellow)] hover:bg-[var(--cs-yellow)]/5"
+                                            onClick={() => toast.warning("Chat has been cleared.")}
+                                        >
                                             <MessageSquare className="h-4 w-4 mr-2" /> Clear Chat
                                         </Button>
                                     </div>

@@ -1,16 +1,17 @@
 import { MainLayout } from '@/components/layout/MainLayout';
 import { WidgetCard } from '@/components/widgets/WidgetCard';
 import { analyticsData } from '@/data/dummy';
-import { 
-  TrendingUp, 
-  TrendingDown, 
-  Users, 
-  Eye, 
-  Clock, 
+import {
+  TrendingUp,
+  TrendingDown,
+  Users,
+  Eye,
+  Clock,
   DollarSign,
   Calendar
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
 
 export default function Analytics() {
   const latestData = analyticsData[analyticsData.length - 1];
@@ -69,11 +70,20 @@ export default function Analytics() {
             <p className="text-muted-foreground">Track your channel performance</p>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" className="border border-border hover:text-[var(--cs-cyan)] hover:border-[var(--cs-cyan)]">
+            <Button
+              variant="ghost"
+              className="border border-border hover:text-[var(--cs-cyan)] hover:border-[var(--cs-cyan)]"
+              onClick={() => toast.info("Date Range Picker", { description: "You can select custom time periods for your analytics here." })}
+            >
               <Calendar className="h-4 w-4 mr-2" />
               Last 30 Days
             </Button>
-            <button className="btn-cyber-brand px-6 py-2 text-sm rounded-md font-bold">Export</button>
+            <button
+              className="btn-cyber-brand px-6 py-2 text-sm rounded-md font-bold"
+              onClick={() => toast.success("Analytics Export Started", { description: "Your CSV report is being generated and will download shortly." })}
+            >
+              Export
+            </button>
           </div>
         </div>
 
@@ -83,7 +93,7 @@ export default function Analytics() {
             <div key={stat.label} className="bg-twitch-surface rounded-lg p-4 border border-border hover:border-[var(--cs-cyan)] transition-colors relative overflow-hidden group">
               {/* Glow Effect on Hover */}
               <div className={`absolute -right-4 -top-4 w-20 h-20 rounded-full blur-3xl opacity-0 group-hover:opacity-20 transition-opacity ${stat.bg}`}></div>
-              
+
               <div className="flex items-center justify-between mb-3 relative z-10">
                 <span className={`p-2 rounded-lg ${stat.bg} ${stat.color}`}>
                   <stat.icon className="h-5 w-5" />
@@ -106,11 +116,11 @@ export default function Analytics() {
             <div className="h-64">
               <div className="flex items-end justify-between h-full gap-2">
                 {analyticsData.map((data, index) => (
-                  <div 
+                  <div
                     key={data.date}
                     className="flex-1 flex flex-col items-center gap-2 group"
                   >
-                    <div 
+                    <div
                       className="w-full bg-[var(--cs-cyan)]/30 rounded-t group-hover:bg-[var(--cs-cyan)] group-hover:shadow-[0_0_10px_var(--cs-cyan)] transition-all cursor-pointer"
                       style={{ height: `${(data.followers / maxFollowers) * 100}%`, minHeight: 4 }}
                       title={`${data.followers.toLocaleString()} followers`}
@@ -129,11 +139,11 @@ export default function Analytics() {
             <div className="h-64">
               <div className="flex items-end justify-between h-full gap-2">
                 {analyticsData.map((data, index) => (
-                  <div 
+                  <div
                     key={data.date}
                     className="flex-1 flex flex-col items-center gap-2 group"
                   >
-                    <div 
+                    <div
                       className="w-full bg-[var(--cs-green)]/30 rounded-t group-hover:bg-[var(--cs-green)] group-hover:shadow-[0_0_10px_var(--cs-green)] transition-all cursor-pointer"
                       style={{ height: `${(data.views / maxViews) * 100}%`, minHeight: 4 }}
                       title={`${data.views.toLocaleString()} views`}
@@ -152,11 +162,11 @@ export default function Analytics() {
             <div className="h-64">
               <div className="flex items-end justify-between h-full gap-2">
                 {analyticsData.map((data) => (
-                  <div 
+                  <div
                     key={data.date}
                     className="flex-1 flex flex-col items-center gap-2 group"
                   >
-                    <div 
+                    <div
                       className="w-full bg-[var(--cs-yellow)]/30 rounded-t group-hover:bg-[var(--cs-yellow)] group-hover:shadow-[0_0_10px_var(--cs-yellow)] transition-all cursor-pointer"
                       style={{ height: `${(data.streamHours / 10) * 100}%`, minHeight: 4 }}
                       title={`${data.streamHours} hours`}
@@ -175,11 +185,11 @@ export default function Analytics() {
             <div className="h-64">
               <div className="flex items-end justify-between h-full gap-2">
                 {analyticsData.map((data) => (
-                  <div 
+                  <div
                     key={data.date}
                     className="flex-1 flex flex-col items-center gap-2 group"
                   >
-                    <div 
+                    <div
                       className="w-full bg-[var(--cs-magenta)]/30 rounded-t group-hover:bg-[var(--cs-magenta)] group-hover:shadow-[0_0_10px_var(--cs-magenta)] transition-all cursor-pointer"
                       style={{ height: `${(data.revenue / 600) * 100}%`, minHeight: 4 }}
                       title={`$${data.revenue}`}

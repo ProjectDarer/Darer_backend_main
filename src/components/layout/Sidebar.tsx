@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-  Home, Compass, Heart, Bell, Settings, LayoutDashboard,
-  ChevronLeft, ChevronRight, Radio
+import {
+  Home, Heart, Bell, Settings, LayoutDashboard,
+  ChevronLeft, ChevronRight, Radio, Wallet as WalletIcon, Trophy
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { followedChannels } from '@/data/dummy';
@@ -10,8 +10,9 @@ import { Button } from '@/components/ui/button';
 
 const navItems = [
   { icon: Home, label: 'Home', path: '/', color: 'text-[var(--cs-cyan)]', activeBg: 'bg-[var(--cs-cyan)]/20' },
-  { icon: Compass, label: 'Browse', path: '/browse', color: 'text-[var(--cs-green)]', activeBg: 'bg-[var(--cs-green)]/20' },
   { icon: Heart, label: 'Following', path: '/following', color: 'text-[var(--cs-yellow)]', activeBg: 'bg-[var(--cs-yellow)]/20' },
+  { icon: WalletIcon, label: 'Wallet', path: '/wallet', color: 'text-[var(--cs-green)]', activeBg: 'bg-[var(--cs-green)]/20' },
+  { icon: Trophy, label: 'Leaderboard', path: '/leaderboard', color: 'text-[var(--cs-yellow)]', activeBg: 'bg-[var(--cs-yellow)]/20' },
   { icon: LayoutDashboard, label: 'Dashboard', path: '/dashboard', color: 'text-[var(--cs-magenta)]', activeBg: 'bg-[var(--cs-magenta)]/20' },
 ];
 
@@ -27,7 +28,7 @@ export function Sidebar() {
   return (
     <>
       {/* --- DESKTOP SIDEBAR (Hidden on Mobile) --- */}
-      <aside 
+      <aside
         className={cn(
           "fixed left-0 top-14 h-[calc(100vh-3.5rem)] bg-sidebar border-r border-border hidden md:flex flex-col transition-all duration-300 z-40",
           collapsed ? "w-14" : "w-60"
@@ -53,8 +54,8 @@ export function Sidebar() {
                   to={item.path}
                   className={cn(
                     "flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 group",
-                    isActive 
-                      ? cn(item.activeBg, item.color) 
+                    isActive
+                      ? cn(item.activeBg, item.color)
                       : "text-foreground hover:bg-twitch-hover"
                   )}
                 >
@@ -81,8 +82,8 @@ export function Sidebar() {
                     className="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-twitch-hover transition-colors group"
                   >
                     <div className="relative flex-shrink-0">
-                      <img 
-                        src={channel.avatar} 
+                      <img
+                        src={channel.avatar}
                         alt={channel.displayName}
                         className="w-8 h-8 rounded-full ring-2 ring-transparent group-hover:ring-[var(--cs-green)] transition-all"
                       />
@@ -99,9 +100,9 @@ export function Sidebar() {
                       </p>
                     </div>
                     {channel.isLive && (
-                      <div className="flex items-center gap-1 text-xs text-[var(--cs-magenta)]">
-                        <Radio className="h-3 w-3" />
-                        <span>{(channel.viewers / 1000).toFixed(1)}K</span>
+                      <div className="flex items-center gap-1 text-[10px] text-[var(--cs-magenta)] font-bold">
+                        <span className="w-1 h-1 bg-current rounded-full animate-pulse" />
+                        <span>{(channel.viewers / 1000).toFixed(1)}K joined</span>
                       </div>
                     )}
                   </Link>
@@ -140,8 +141,8 @@ export function Sidebar() {
                 to={item.path}
                 className={cn(
                   "flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200",
-                  isActive 
-                    ? "bg-twitch-purple/20 text-twitch-purple" 
+                  isActive
+                    ? "bg-twitch-purple/20 text-twitch-purple"
                     : "text-foreground hover:bg-twitch-hover hover:text-[var(--cs-yellow)]"
                 )}
               >
@@ -158,29 +159,29 @@ export function Sidebar() {
         {navItems.map((item) => {
           const isActive = location.pathname === item.path;
           return (
-             <Link
-                key={item.path}
-                to={item.path}
-                className="flex flex-col items-center justify-center w-full h-full gap-1"
-              >
-                <div className={cn(
-                    "relative p-1.5 rounded-xl transition-all duration-300",
-                     isActive && "bg-white/10 shadow-[0_0_15px_var(--cs-glow-cyan)]"
-                )}>
-                    <item.icon 
-                      className={cn(
-                        "h-5 w-5 transition-all duration-300", 
-                        isActive ? item.color : "text-muted-foreground"
-                      )} 
-                    />
-                </div>
-                <span className={cn(
-                  "text-[10px] font-medium transition-colors", 
-                  isActive ? item.color : "text-muted-foreground"
-                )}>
-                  {item.label}
-                </span>
-              </Link>
+            <Link
+              key={item.path}
+              to={item.path}
+              className="flex flex-col items-center justify-center w-full h-full gap-1"
+            >
+              <div className={cn(
+                "relative p-1.5 rounded-xl transition-all duration-300",
+                isActive && "bg-white/10 shadow-[0_0_15px_var(--cs-glow-cyan)]"
+              )}>
+                <item.icon
+                  className={cn(
+                    "h-5 w-5 transition-all duration-300",
+                    isActive ? item.color : "text-muted-foreground"
+                  )}
+                />
+              </div>
+              <span className={cn(
+                "text-[10px] font-medium transition-colors",
+                isActive ? item.color : "text-muted-foreground"
+              )}>
+                {item.label}
+              </span>
+            </Link>
           );
         })}
       </div>

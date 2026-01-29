@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, User, Eye, EyeOff, Loader2, Check, Calendar } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 export default function Signup() {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -32,6 +34,11 @@ export default function Signup() {
         setError('Please fill in all fields');
       } else if (password !== confirmPassword) {
         setError('Passwords do not match');
+      } else {
+        toast.success('Account created successfully!', {
+          description: `Welcome to the DARER arena, ${username}! Redirecting you home...`
+        });
+        setTimeout(() => navigate('/'), 1000);
       }
     }, 1500);
 

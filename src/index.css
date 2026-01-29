@@ -6,72 +6,76 @@
 
 @layer base {
   :root {
-    /* --- DARER / CYBERPUNK PALETTE --- */
+    /* --- LIGHT MODE VALUES (Better Contrast) --- */
+    --cs-magenta: #c200c2;
+    --cs-cyan: #008a91;
+    --cs-yellow: #9c7b00;
+    /* Darker, more legible Gold/Yellow */
+    --cs-green: #248a0a;
+
+    --cs-cyan-rgb: 0, 138, 145;
+    --cs-magenta-rgb: 194, 0, 194;
+    --cs-yellow-rgb: 156, 123, 0;
+    --cs-green-rgb: 36, 138, 10;
+
+    --cs-underline: rgba(0, 138, 145, .9);
+    --cs-glow-soft: rgba(194, 0, 194, .35);
+    --cs-glow-cyan: rgba(0, 138, 145, .25);
+    --cs-glow-green: rgba(36, 138, 10, .35);
+
+    /* --- LIGHT MODE VALUES --- */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 300 100% 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 178 100% 50%;
+    --accent-foreground: 240 10% 3.9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 85%;
+    --input: 240 5.9% 85%;
+    --ring: 240 10% 3.9%;
+    --radius: 0.375rem;
+
+    --twitch-background: 0 0% 98%;
+    --twitch-surface: 0 0% 100%;
+    --twitch-border: 240 5.9% 90%;
+    --twitch-hover: 240 4.8% 95%;
+
+    /* Sidebar Light */
+    --sidebar-background: 0 0% 96%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
     --cs-magenta: #ff00ff;
     --cs-cyan: #00fff7;
     --cs-yellow: #ffff00;
-    --cs-green: #39ff14; /* NEON GREEN ADDED */
-    
-    /* RGB Values for rgba() transparency tricks */
+    --cs-green: #39ff14;
+
     --cs-cyan-rgb: 0, 255, 247;
     --cs-magenta-rgb: 255, 0, 255;
     --cs-yellow-rgb: 255, 255, 0;
     --cs-green-rgb: 57, 255, 20;
-    
-    --cs-underline: rgba(0, 255, 247, .9);
+
     --cs-glow-soft: rgba(255, 0, 255, .35);
     --cs-glow-cyan: rgba(0, 255, 247, .25);
     --cs-glow-green: rgba(57, 255, 20, .35);
 
-    /* Base Colors */
-    --background: 240 10% 4%;
-    --foreground: 0 0% 95%;
-    --card: 240 6% 10%;
-    --card-foreground: 0 0% 95%;
-    --popover: 240 6% 10%;
-    --popover-foreground: 0 0% 95%;
-
-    /* Primary mapped to Magenta, but we will use accents */
-    --primary: 300 100% 50%;
-    --primary-foreground: 0 0% 100%;
-
-    --secondary: 240 5% 15%;
-    --secondary-foreground: 0 0% 95%;
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 65%;
-    --accent: 125 100% 50%; /* Mapped to Green range roughly */
-    --accent-foreground: 240 10% 4%;
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 240 4% 20%;
-    --input: 240 4% 20%;
-    --ring: 178 100% 50%;
-    --radius: 0.375rem;
-
-    /* Sidebar */
-    --sidebar-background: 240 6% 7%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 300 100% 50%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 4% 16%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 240 4% 16%;
-    --sidebar-ring: 178 100% 50%;
-
-    /* Legacy Mappings updated to include new accents */
-    --twitch-purple: 300 100% 50%;
-    --twitch-purple-dark: 300 100% 35%;
-    --twitch-purple-light: 178 100% 50%;
-    --twitch-background: 240 10% 4%;
-    --twitch-surface: 240 6% 10%;
-    --twitch-surface-light: 240 5% 14%;
-    --twitch-hover: 240 4% 18%;
-    --twitch-border: 240 4% 20%;
-    --twitch-text: 0 0% 95%;
-    --twitch-live: 60 100% 50%;
-  }
-
-  .dark {
     --background: 240 10% 4%;
     --foreground: 0 0% 95%;
     --card: 240 6% 10%;
@@ -91,17 +95,41 @@
     --border: 240 4% 20%;
     --input: 240 4% 20%;
     --ring: 178 100% 50%;
+
+    --twitch-background: 240 10% 4%;
+    --twitch-surface: 240 6% 10%;
+    --twitch-border: 240 4% 20%;
+    --twitch-hover: 240 4% 18%;
+
+    --sidebar-background: 240 6% 7%;
+    --sidebar-foreground: 0 0% 95%;
+    --sidebar-border: 240 4% 16%;
   }
 }
 
 @layer base {
-  * { @apply border-border; }
-  html { font-family: 'Inter', sans-serif; }
-  body { @apply bg-background text-foreground antialiased; }
-  
-  ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { @apply bg-transparent; }
-  ::-webkit-scrollbar-thumb { 
+  * {
+    @apply border-border;
+  }
+
+  html {
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
     /* Gradient Scrollbar */
     background: linear-gradient(to bottom, var(--cs-magenta), var(--cs-cyan), var(--cs-green), var(--cs-yellow));
     border-radius: 9999px;
@@ -109,27 +137,36 @@
 }
 
 @layer utilities {
+
   /* --- GRADIENT DEFINITIONS --- */
   .gradient-brand {
     background: linear-gradient(90deg, var(--cs-magenta) 0%, var(--cs-cyan) 33%, var(--cs-green) 66%, var(--cs-yellow) 100%);
   }
-  
+
   .text-gradient {
     background: linear-gradient(90deg, var(--cs-cyan) 0%, var(--cs-green) 50%, var(--cs-yellow) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
-  
+
   /* --- CUSTOM BORDERS & GLOWS --- */
   .border-cyber-green {
     border-color: var(--cs-green);
     box-shadow: 0 0 10px rgba(var(--cs-green-rgb), 0.2);
   }
 
-  .glow-soft { box-shadow: 0 0 15px var(--cs-glow-soft); }
-  .glow-cyan { box-shadow: 0 0 15px var(--cs-glow-cyan); }
-  .glow-green { box-shadow: 0 0 15px var(--cs-glow-green); }
+  .glow-soft {
+    box-shadow: 0 0 15px var(--cs-glow-soft);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 15px var(--cs-glow-cyan);
+  }
+
+  .glow-green {
+    box-shadow: 0 0 15px var(--cs-glow-green);
+  }
 
   /* --- BUTTON STYLES --- */
   .btn-cyber-brand {
@@ -142,7 +179,7 @@
     /* Updated Gradient: Magenta -> Cyan -> Green -> Yellow */
     background: linear-gradient(90deg, var(--cs-magenta) 0%, var(--cs-cyan) 35%, var(--cs-green) 70%, var(--cs-yellow) 100%);
     background-size: 300% auto;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     text-shadow: var(--cs-magenta) 0px 0px 10px;
     overflow: hidden;
@@ -168,8 +205,9 @@
   .btn-cyber-brand:hover {
     box-shadow: 0 0 20px var(--cs-glow-soft), 0 0 40px var(--cs-glow-cyan);
     transform: translateY(-2px);
-    background-position: right center; 
-    color: #000; /* Dark text on the bright yellow/green end of gradient */
+    background-position: right center;
+    color: #000;
+    /* Dark text on the bright yellow/green end of gradient */
   }
 
   .btn-cyber-brand:hover::before {
@@ -178,6 +216,15 @@
 
   /* Specific Green/Yellow Buttons for Mobile actions */
   .btn-cyber-action {
-    @apply bg-background/50 backdrop-blur-sm border border-border hover:border-[var(--cs-green)] hover:text-[var(--cs-green)] hover:shadow-[0_0_15px_rgba(57,255,20,0.3)] transition-all duration-300;
+    background-color: rgb(var(--background) / 0.5);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgb(var(--border));
+    transition: all 0.3s ease;
+  }
+
+  .btn-cyber-action:hover {
+    border-color: var(--cs-green);
+    color: var(--cs-green);
+    box-shadow: 0 0 15px rgba(57, 255, 20, 0.3);
   }
 }

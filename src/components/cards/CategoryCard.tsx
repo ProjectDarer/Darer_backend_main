@@ -35,7 +35,7 @@ export function CategoryCard({ category, variant = 'default' }: CategoryCardProp
           </h3>
           <p className="text-sm text-muted-foreground group-hover:text-[var(--cs-green)] transition-colors flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[var(--cs-magenta)]"></span>
-            {formatViewers(category.viewers)} viewers
+            {formatViewers(category.viewers)} joined
           </p>
           <div className="flex flex-wrap gap-1 mt-2">
             {category.tags.slice(0, 3).map((tag) => (
@@ -85,7 +85,7 @@ export function CategoryCard({ category, variant = 'default' }: CategoryCardProp
           {category.name}
         </h3>
         <p className="text-xs text-muted-foreground group-hover:text-[var(--cs-green)] transition-colors">
-          {formatViewers(category.viewers)} viewers
+          {formatViewers(category.viewers)} joined
         </p>
         <div className="flex flex-wrap gap-1 mt-1">
           {category.tags.map((tag) => (

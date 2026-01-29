@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Radio, Heart, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
 
 export default function Following() {
   const liveChannels = followedChannels.filter(c => c.isLive);
@@ -81,13 +82,16 @@ export default function Following() {
                   <div className="flex flex-col items-end gap-1 md:gap-0">
                     <div className="flex items-center gap-1 text-[var(--cs-cyan)] mb-1 md:mb-0">
                       <span className="w-1.5 h-1.5 md:w-2 md:h-2 bg-[var(--cs-cyan)] rounded-full animate-pulse-live" />
-                      <span className="font-medium text-xs md:text-sm">{formatViewers(channel.viewers)}</span>
+                      <span className="font-medium text-[10px] md:text-sm">{formatViewers(channel.viewers)} joined</span>
                     </div>
 
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={(e) => e.preventDefault()}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        toast.info("Channel Actions Opened", { description: "Manage notifications, block, or report this channel." });
+                      }}
                       className="h-8 w-8 hover:text-[var(--cs-magenta)] -mr-2 md:mr-0"
                     >
                       <MoreHorizontal className="h-4 w-4" />
@@ -141,7 +145,10 @@ export default function Following() {
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8 -mr-2 md:mr-0"
-                    onClick={(e) => e.preventDefault()}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toast.info("Channel Actions", { description: "Manage notifications or unfollow from here." });
+                    }}
                   >
                     <MoreHorizontal className="h-4 w-4" />
                   </Button>

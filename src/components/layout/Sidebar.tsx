@@ -100,9 +100,9 @@ export function Sidebar() {
                       </p>
                     </div>
                     {channel.isLive && (
-                      <div className="flex items-center gap-1 text-xs text-[var(--cs-magenta)]">
-                        <Radio className="h-3 w-3" />
-                        <span>{(channel.viewers / 1000).toFixed(1)}K</span>
+                      <div className="flex items-center gap-1 text-[10px] text-[var(--cs-magenta)] font-bold">
+                        <span className="w-1 h-1 bg-current rounded-full animate-pulse" />
+                        <span>{(channel.viewers / 1000).toFixed(1)}K joined</span>
                       </div>
                     )}
                   </Link>

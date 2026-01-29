@@ -28,7 +28,7 @@ export default function Settings() {
   const [accentColor, setAccentColor] = useState('#00fff7');
 
   const tabs = [
-    { id: 'general' as const, label: 'General', icon: User },
+    { id: 'general' as const, label: 'Edit Profile', icon: User },
     { id: 'security' as const, label: 'Security', icon: Shield },
     { id: 'notifications' as const, label: 'Notifications', icon: Bell },
     { id: 'appearance' as const, label: 'Appearance', icon: Palette },
@@ -36,6 +36,9 @@ export default function Settings() {
 
   const handleSave = () => {
     setSaved(true);
+    toast.success("Profile saved successfully!", {
+      description: "Your public dossier has been updated across the network."
+    });
     setTimeout(() => setSaved(false), 2000);
   };
 
@@ -76,15 +79,29 @@ export default function Settings() {
 
                 {/* Avatar */}
                 <div className="flex items-center gap-4">
-                  <div className="relative">
+                  <div className="relative group">
                     <img
                       src={userProfile.avatar}
                       alt={userProfile.displayName}
-                      className="w-20 h-20 rounded-full ring-2 ring-[var(--cs-magenta)]"
+                      className="w-20 h-20 rounded-full ring-2 ring-[var(--cs-magenta)] object-cover"
                     />
-                    <button className="absolute bottom-0 right-0 w-8 h-8 bg-[var(--cs-magenta)] rounded-full flex items-center justify-center hover:bg-[var(--cs-magenta)]/80 transition-colors shadow-lg">
+                    <label
+                      htmlFor="avatar-upload"
+                      className="absolute bottom-0 right-0 w-8 h-8 bg-[var(--cs-magenta)] rounded-full flex items-center justify-center hover:bg-[var(--cs-magenta)]/80 transition-colors shadow-lg cursor-pointer"
+                    >
                       <Camera className="h-4 w-4 text-white" />
-                    </button>
+                      <input
+                        id="avatar-upload"
+                        type="file"
+                        className="hidden"
+                        accept="image/*"
+                        onChange={(e) => {
+                          if (e.target.files?.[0]) {
+                            toast.success("Profile picture updated!");
+                          }
+                        }}
+                      />
+                    </label>
                   </div>
                   <div>
                     <p className="font-medium">Profile Picture</p>

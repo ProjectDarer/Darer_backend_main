@@ -38,7 +38,7 @@ export function StreamCard({ channel, variant = 'default' }: StreamCardProps) {
             {channel.displayName}
           </p>
           <p className="text-xs text-muted-foreground truncate group-hover:text-[var(--cs-green)] transition-colors">{channel.category}</p>
-          <p className="text-xs text-muted-foreground">{formatViewers(channel.viewers)} viewers</p>
+          <p className="text-xs text-muted-foreground">{formatViewers(channel.viewers)} joined</p>
         </div>
       </Link>
     );
@@ -73,9 +73,9 @@ export function StreamCard({ channel, variant = 'default' }: StreamCardProps) {
           </div>
         )}
 
-        {/* Viewer Count - Updated to Dark background with Green text */}
+        {/* People Joined Count - Updated to Dark background with Green text */}
         <div className="absolute bottom-2 left-2 px-1.5 py-0.5 bg-black/80 backdrop-blur-md text-[var(--cs-green)] text-xs font-medium rounded border border-[var(--cs-green)]/30">
-          {formatViewers(channel.viewers)} viewers
+          {formatViewers(channel.viewers)} joined
         </div>
 
         {/* Hover Overlay - Cyan tint */}

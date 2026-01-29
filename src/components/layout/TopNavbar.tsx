@@ -195,6 +195,7 @@ export function TopNavbar() {
                 </div>
                 <div className="py-1">
                   <Link to="/channel/mystream" className="block px-4 py-2 text-sm hover:bg-[var(--cs-cyan)]/10 hover:text-[var(--cs-cyan)] transition-colors">Channel</Link>
+                  <Link to="/settings" className="block px-4 py-2 text-sm hover:bg-[var(--cs-cyan)]/10 hover:text-[var(--cs-cyan)] transition-colors">Edit Profile</Link>
                   <Link to="/dashboard" className="block px-4 py-2 text-sm hover:bg-[var(--cs-cyan)]/10 hover:text-[var(--cs-cyan)] transition-colors">Creator Dashboard</Link>
                   <Link to="/wallet" className="block px-4 py-2 text-sm hover:bg-[var(--cs-cyan)]/10 hover:text-[var(--cs-cyan)] transition-colors">Wallet</Link>
                   <Link to="/analytics" className="block px-4 py-2 text-sm hover:bg-[var(--cs-cyan)]/10 hover:text-[var(--cs-cyan)] transition-colors">Analytics</Link>

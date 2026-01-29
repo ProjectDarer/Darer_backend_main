@@ -48,11 +48,19 @@ export default function SearchResults() {
                     </div>
 
                     <div className="flex items-center gap-3 animate-in fade-in slide-in-from-right-4 duration-500">
-                        <Button variant="outline" className="btn-cyber-action border-border hover:border-[var(--cs-cyan)]">
+                        <Button
+                            variant="outline"
+                            className="btn-cyber-action border-border hover:border-[var(--cs-cyan)]"
+                            onClick={() => toast.info("Filter Options", { description: "Filter results by category, status, and language." })}
+                        >
                             <Filter className="h-4 w-4 mr-2" />
                             Filter
                         </Button>
-                        <Button variant="outline" className="btn-cyber-action border-border hover:border-[var(--cs-green)]">
+                        <Button
+                            variant="outline"
+                            className="btn-cyber-action border-border hover:border-[var(--cs-green)]"
+                            onClick={() => toast.info("Sorting Protocol", { description: "Sort by viewers, recent, or completion rate." })}
+                        >
                             <SlidersHorizontal className="h-4 w-4 mr-2" />
                             Sort
                         </Button>
@@ -95,7 +103,12 @@ export default function SearchResults() {
                     <section className="animate-in fade-in slide-in-from-bottom-6 duration-700">
                         <div className="flex items-center justify-between mb-8">
                             <h2 className="text-xl md:text-2xl font-black italic uppercase tracking-tighter border-l-4 border-[var(--cs-magenta)] pl-4">Suggested <span className="text-[var(--cs-magenta)]">Daredevils</span></h2>
-                            <Button variant="ghost" size="sm" className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-[var(--cs-magenta)]">
+                            <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-xs font-bold uppercase tracking-widest text-muted-foreground hover:text-[var(--cs-magenta)]"
+                                onClick={() => toast.info("Discover More Creators", { description: "Browsing all trending daredevils on DARER." })}
+                            >
                                 View All
                             </Button>
                         </div>

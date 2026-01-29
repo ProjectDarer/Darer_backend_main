@@ -202,11 +202,19 @@ export default function Dashboard() {
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
-                      <Button variant="outline" className="text-xs h-9 border-border group hover:border-[var(--cs-cyan)]">
+                      <Button
+                        variant="outline"
+                        className="text-xs h-9 border-border group hover:border-[var(--cs-cyan)]"
+                        onClick={() => toast.info("Ingest Source Config", { description: "Selecting OBS automatically optimizes your bitrate for the DARER ingest servers." })}
+                      >
                         <Monitor className="h-3.5 w-3.5 mr-2 group-hover:text-[var(--cs-cyan)]" />
                         Source: OBS
                       </Button>
-                      <Button variant="outline" className="text-xs h-9 border-border group hover:border-[var(--cs-green)]">
+                      <Button
+                        variant="outline"
+                        className="text-xs h-9 border-border group hover:border-[var(--cs-green)]"
+                        onClick={() => toast.success("Quality Settings Opened", { description: "Adjust your encoding profile and resolution here." })}
+                      >
                         <Settings className="h-3.5 w-3.5 mr-2 group-hover:text-[var(--cs-green)]" />
                         Settings
                       </Button>
@@ -370,7 +378,7 @@ export default function Dashboard() {
                     <div className="bg-twitch-hover/50 border border-border rounded-lg p-3 hover:border-[var(--cs-cyan)] transition-colors">
                       <div className="flex items-center gap-2 text-[var(--cs-cyan)] mb-1">
                         <Users className="h-4 w-4" />
-                        <span className="text-[10px] md:text-xs font-bold uppercase">Viewers</span>
+                        <span className="text-[10px] md:text-xs font-bold uppercase">People Joined</span>
                       </div>
                       <p className="text-xl md:text-2xl font-bold">{isLive ? streamStats.viewers.toLocaleString() : '—'}</p>
                     </div>

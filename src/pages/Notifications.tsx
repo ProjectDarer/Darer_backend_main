@@ -2,12 +2,12 @@ import { MainLayout } from '@/components/layout/MainLayout';
 import { notifications } from '@/data/dummy';
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { 
-  Bell, 
-  Users, 
-  Star, 
-  Radio, 
-  AtSign, 
+import {
+  Bell,
+  Users,
+  Star,
+  Radio,
+  AtSign,
   Settings,
   Check,
   Trash2
@@ -58,8 +58,8 @@ export default function Notifications() {
             <h1 className="text-3xl font-bold mb-2 text-gradient">Notifications</h1>
             <p className="text-muted-foreground">Stay updated with your channel activity</p>
           </div>
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             className="border border-border hover:border-[var(--cs-green)] hover:text-[var(--cs-green)] hover:bg-[var(--cs-green)]/10"
             onClick={markAllRead}
           >
@@ -77,8 +77,8 @@ export default function Notifications() {
               onClick={() => setActiveTab(tab)}
               className={cn(
                 "capitalize border transition-all duration-300",
-                activeTab === tab 
-                  ? "border-[var(--cs-cyan)] bg-[var(--cs-cyan)]/10 text-[var(--cs-cyan)] shadow-[0_0_10px_rgba(0,255,247,0.2)]" 
+                activeTab === tab
+                  ? "border-[var(--cs-cyan)] bg-[var(--cs-cyan)]/10 text-[var(--cs-cyan)] shadow-[0_0_10px_rgba(0,255,247,0.2)]"
                   : "border-transparent bg-black/20 text-muted-foreground hover:text-foreground"
               )}
             >
@@ -94,19 +94,19 @@ export default function Notifications() {
         <div className="space-y-2">
           {filteredNotifications.length > 0 ? (
             filteredNotifications.map((notif) => (
-              <div 
+              <div
                 key={notif.id}
                 className={cn(
                   "flex items-start gap-4 p-4 rounded-lg transition-all duration-300 cursor-pointer group hover:bg-white/5",
-                  notif.read 
-                    ? "bg-twitch-surface border border-transparent" 
+                  notif.read
+                    ? "bg-twitch-surface border border-transparent"
                     : "bg-twitch-surface border-l-4 border-l-[var(--cs-magenta)] border-y border-r border-transparent shadow-[inset_0_0_20px_rgba(255,0,255,0.05)]"
                 )}
               >
                 {/* Icon */}
                 <div className={cn(
-                    "w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors",
-                    notif.read ? "bg-black/20" : "bg-[var(--cs-magenta)]/10 ring-1 ring-[var(--cs-magenta)]/30"
+                  "w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-colors",
+                  notif.read ? "bg-black/20" : "bg-[var(--cs-magenta)]/10 ring-1 ring-[var(--cs-magenta)]/30"
                 )}>
                   {notif.avatar ? (
                     <img src={notif.avatar} alt="" className="w-10 h-10 rounded-full ring-1 ring-border" />
@@ -130,10 +130,14 @@ export default function Notifications() {
                 </div>
 
                 {/* Actions */}
-                <Button 
-                  variant="ghost" 
+                <Button
+                  variant="ghost"
                   size="icon-sm"
                   className="opacity-0 group-hover:opacity-100 transition-opacity hover:text-red-500 hover:bg-red-500/10"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setNotifs(notifs.filter(n => n.id !== notif.id));
+                  }}
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

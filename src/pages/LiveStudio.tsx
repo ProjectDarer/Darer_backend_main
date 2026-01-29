@@ -19,7 +19,8 @@ import {
     Camera,
     CameraOff,
     Share2,
-    X
+    X,
+    Swords as Sword
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
@@ -70,7 +71,7 @@ export default function LiveStudio() {
                                 <h1 className="text-lg font-bold truncate">My Amazing Stream 🎮</h1>
                                 <div className="flex items-center gap-3 text-xs text-muted-foreground">
                                     <span className="flex items-center gap-1"><Clock className="h-3 w-3" /> {uptime}</span>
-                                    <span className="flex items-center gap-1 text-[var(--cs-cyan)]"><Eye className="h-3 w-3" /> 1,234</span>
+                                    <span className="flex items-center gap-1 text-[var(--cs-cyan)]"><Eye className="h-3 w-3" /> 1,234 joined</span>
                                     <span className="flex items-center gap-1 text-[var(--cs-magenta)]"><Heart className="h-3 w-3" /> 85</span>
                                 </div>
                             </div>
@@ -140,7 +141,12 @@ export default function LiveStudio() {
                                             {isCameraOn ? <Camera className="h-5 w-5" /> : <CameraOff className="h-5 w-5" />}
                                         </Button>
                                         <div className="w-[1px] h-6 bg-white/10 mx-1" />
-                                        <Button variant="ghost" size="icon" className="rounded-full h-10 w-10 hover:text-[var(--cs-yellow)]">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="rounded-full h-10 w-10 hover:text-[var(--cs-yellow)]"
+                                            onClick={() => toast.info("Live Studio Settings", { description: "Manage your stream bitrates, ingest server, and video quality." })}
+                                        >
                                             <Settings className="h-5 w-5" />
                                         </Button>
                                     </div>
@@ -178,7 +184,7 @@ export default function LiveStudio() {
                                             { type: 'sub', user: 'CoolViewer123', msg: 'Subscribed for 6 months!', time: '2m ago', color: 'text-[var(--cs-yellow)]' },
                                             { type: 'follow', user: 'new_gamer_01', msg: 'just followed!', time: '5m ago', color: 'text-[var(--cs-cyan)]' },
                                             { type: 'gift', user: 'GiftMaster', msg: 'gifted 5 subs!', time: '12m ago', color: 'text-[var(--cs-magenta)]' },
-                                            { type: 'raid', user: 'BigStreamer', msg: 'raiding with 450 viewers!', time: '20m ago', color: 'text-[var(--cs-green)]' },
+                                            { type: 'raid', user: 'BigStreamer', msg: 'raiding with 450 people!', time: '20m ago', color: 'text-[var(--cs-green)]' },
                                         ].map((item, idx) => (
                                             <div key={idx} className="p-2 rounded bg-black/20 border-l-2 border-border hover:border-current transition-colors group">
                                                 <div className="flex justify-between items-start mb-1">

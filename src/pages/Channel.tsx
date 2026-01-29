@@ -48,7 +48,7 @@ export default function Channel() {
                   Live
                 </span>
                 <span className="px-2 py-1 bg-black/60 backdrop-blur-md text-[10px] md:text-sm font-medium rounded text-[var(--cs-cyan)] border border-[var(--cs-cyan)]/30">
-                  {formatNumber(channel.viewers)} viewers
+                  {formatNumber(channel.viewers)} joined
                 </span>
               </div>
             )}
@@ -139,10 +139,35 @@ export default function Channel() {
                 </Button>
 
                 <button
-                  className="p-2 bg-[var(--cs-yellow)]/10 text-[var(--cs-yellow)] rounded-md border border-[var(--cs-yellow)]/20 shadow-[inset_0_0_10px_rgba(255,165,0,0.1)]"
+                  className="p-2 bg-[var(--cs-yellow)]/10 text-[var(--cs-yellow)] rounded-md border border-[var(--cs-yellow)]/20 shadow-[inset_0_0_10px_rgba(255,165,0,0.1)] group transition-all hover:bg-[var(--cs-yellow)]/20"
                   onClick={() => setIsDareModalOpen(true)}
+                  title="Issue a Dare"
                 >
-                  <Sword className="h-4 w-4" />
+                  <Sword className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                </button>
+
+                <button
+                  className="p-2 bg-[var(--cs-magenta)]/10 text-[var(--cs-magenta)] rounded-md border border-[var(--cs-magenta)]/20 shadow-[inset_0_0_10px_rgba(255,0,255,0.1)] group transition-all hover:bg-[var(--cs-magenta)]/20"
+                  onClick={() => setIsTipModalOpen(true)}
+                  title="Tip Bits"
+                >
+                  <Gift className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                </button>
+
+                <button
+                  className="p-2 bg-white/5 text-muted-foreground rounded-md border border-white/10 hover:border-white/20 hover:text-white transition-all group"
+                  onClick={() => toast.success("Link Copied!", { description: "You can now share this stream anywhere." })}
+                  title="Share Stream"
+                >
+                  <Share2 className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                </button>
+
+                <button
+                  className="p-2 bg-white/5 text-muted-foreground rounded-md border border-white/10 hover:border-white/20 hover:text-white transition-all group"
+                  onClick={() => toast.info("More Settings", { description: "Advanced stream playback and moderation tools." })}
+                  title="More Options"
+                >
+                  <MoreHorizontal className="h-4 w-4 group-hover:scale-110 transition-transform" />
                 </button>
               </div>
             </div>
@@ -164,7 +189,7 @@ export default function Channel() {
                     </div>
                     <div>
                       <p className="text-xl md:text-2xl font-black text-foreground tracking-tighter">{formatNumber(channel.viewers)}</p>
-                      <p className="text-[10px] text-[var(--cs-green)] uppercase tracking-widest font-bold">Avg. Viewers</p>
+                      <p className="text-[10px] text-[var(--cs-green)] uppercase tracking-widest font-bold">People Joined</p>
                     </div>
                   </div>
                 </div>
@@ -178,6 +203,7 @@ export default function Channel() {
                         variant="outline"
                         size="sm"
                         className="text-[10px] h-8 border-border bg-black/20 hover:border-[var(--cs-cyan)]"
+                        onClick={() => toast.info(`Connecting to ${social}...`, { description: `Opening ${channel.displayName}'s ${social} page.` })}
                       >
                         {social}
                       </Button>

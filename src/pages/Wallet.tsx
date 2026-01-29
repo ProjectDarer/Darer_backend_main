@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { WidgetCard } from '@/components/widgets/WidgetCard';
 import { Button } from '@/components/ui/button';
@@ -12,10 +12,101 @@ import {
    TrendingUp,
    Banknote,
    ShieldCheck,
-   Plus
+   Plus,
+   Lock
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
+import { loadStripe } from '@stripe/stripe-js';
+import {
+   CardElement,
+   Elements,
+   useStripe,
+   useElements,
+} from '@stripe/react-stripe-js';
+
+// Initialize Stripe (Placeholder Key)
+const stripePromise = loadStripe('pk_test_51P8p8f2N8XoPz8Y8x8x8x8x8x8x8x8x8x8x8x8x8x8x8x8x8x8x8x8x8x8x8x8x8');
+
+function CheckoutForm({ amount, onSuccess, onCancel }: { amount: string, onSuccess: (amount: number) => void, onCancel: () => void }) {
+   const stripe = useStripe();
+   const elements = useElements();
+   const [isProcessing, setIsProcessing] = useState(false);
+
+   const handleSubmit = async (event: React.FormEvent) => {
+      event.preventDefault();
+
+      if (!stripe || !elements) return;
+
+      const cardElement = elements.getElement(CardElement);
+      if (!cardElement) return;
+
+      if (!amount || isNaN(Number(amount)) || Number(amount) <= 0) {
+         toast.error('Please enter a valid amount');
+         return;
+      }
+
+      setIsProcessing(true);
+      toast.info("Processing secure payment...");
+
+      // Simulate Stripe call
+      const { error, paymentMethod } = await new Promise<{ error?: any, paymentMethod?: any }>(resolve => {
+         setTimeout(() => {
+            resolve({ paymentMethod: { id: 'pm_mock_123' } });
+         }, 1500);
+      });
+
+      setIsProcessing(false);
+
+      if (error) {
+         toast.error(error.message);
+      } else {
+         onSuccess(Number(amount));
+      }
+   };
+
+   return (
+      <form onSubmit={handleSubmit} className="space-y-6">
+         <div className="p-4 bg-black/40 border border-border rounded-lg group focus-within:border-[var(--cs-cyan)] transition-colors">
+            <div className="flex items-center gap-2 mb-3 text-muted-foreground group-focus-within:text-[var(--cs-cyan)] transition-colors">
+               <CreditCard className="h-4 w-4" />
+               <span className="text-xs font-bold uppercase tracking-wider">Secure Card Details</span>
+            </div>
+            <div className="px-2 py-3 bg-white/5 rounded border border-white/5">
+               <CardElement
+                  options={{
+                     style: {
+                        base: {
+                           fontSize: '16px',
+                           color: '#ffffff',
+                           '::placeholder': {
+                              color: '#6b7280',
+                           },
+                        },
+                        invalid: {
+                           color: '#ff00ff',
+                        },
+                     },
+                  }}
+               />
+            </div>
+         </div>
+
+         <div className="flex items-center gap-2 text-[10px] text-muted-foreground uppercase font-bold tracking-widest">
+            <Lock className="h-3 w-3" />
+            Encrypted & Powered by Stripe
+         </div>
+
+         <Button
+            type="submit"
+            disabled={!stripe || isProcessing}
+            className="w-full btn-cyber-brand h-12 font-bold shadow-[0_0_20px_var(--cs-glow-cyan)]"
+         >
+            {isProcessing ? "Processing..." : `Confirm Deposit $${Number(amount || 0).toFixed(2)}`}
+         </Button>
+      </form>
+   );
+}
 
 export default function Wallet() {
    const [balance, setBalance] = useState(1250.75);
@@ -30,19 +121,11 @@ export default function Wallet() {
       { id: '4', type: 'earning', amount: 850.75, status: 'completed', date: '2024-01-12', method: 'Stream Revenue' },
    ];
 
-   const handleDeposit = () => {
-      if (!amount || isNaN(Number(amount))) {
-         toast.error('Please enter a valid amount');
-         return;
-      }
-      toast.success(`Redirecting to Stripe to deposit $${amount}...`);
-      // Simulated delay
-      setTimeout(() => {
-         setBalance(prev => prev + Number(amount));
-         setShowDeposit(false);
-         setAmount('');
-         toast.success('Funds added successfully!');
-      }, 2000);
+   const handleDepositSuccess = (depositedAmount: number) => {
+      setBalance(prev => prev + depositedAmount);
+      setShowDeposit(false);
+      setAmount('');
+      toast.success('Funds added successfully!');
    };
 
    const handleWithdraw = () => {
@@ -153,7 +236,7 @@ export default function Wallet() {
                         <Button
                            variant="ghost"
                            className="w-full border-dashed border border-border hover:border-[var(--cs-cyan)] text-xs h-10"
-                           onClick={() => toast.info("Payment method integration coming soon!")}
+                           onClick={() => toast.info("Payment Integration", { description: "Additional payment methods (PayPal, Crypto) will be available in the next release." })}
                         >
                            + Add New Method
                         </Button>
@@ -211,26 +294,34 @@ export default function Wallet() {
                            <span className="text-muted-foreground">Transaction Fee</span>
                            <span className="text-[var(--cs-green)]">FREE</span>
                         </div>
-                        <div className="border-t border-border pt-4 flex justify-between">
+                        <div className="border-t border-border pt-4 flex justify-between mb-6">
                            <span className="font-bold">Total</span>
                            <span className="font-bold text-xl text-[var(--cs-cyan)]">${Number(amount || 0).toFixed(2)}</span>
                         </div>
-                        <Button
-                           className={cn(
-                              "mt-6 h-12 font-bold",
-                              showDeposit ? "btn-cyber-brand" : "bg-[var(--cs-magenta)] hover:bg-[var(--cs-magenta)]/90 text-white"
-                           )}
-                           onClick={showDeposit ? handleDeposit : handleWithdraw}
-                        >
-                           Confirm {showDeposit ? 'Deposit' : 'Withdrawal'}
-                        </Button>
+
+                        {showDeposit ? (
+                           <Elements stripe={stripePromise}>
+                              <CheckoutForm
+                                 amount={amount}
+                                 onSuccess={handleDepositSuccess}
+                                 onCancel={() => setShowDeposit(false)}
+                              />
+                           </Elements>
+                        ) : (
+                           <Button
+                              className="w-full h-12 font-bold bg-[var(--cs-magenta)] hover:bg-[var(--cs-magenta)]/90 text-white"
+                              onClick={handleWithdraw}
+                           >
+                              Confirm Withdrawal
+                           </Button>
+                        )}
                      </div>
                   </div>
                </div>
             )}
 
             {/* Recent Transactions */}
-            <WidgetCard title="Recent Transactions" headerAction={<Button variant="ghost" size="sm" className="text-xs" onClick={() => toast.info("Full transaction history coming soon!")}>View All</Button>}>
+            <WidgetCard title="Recent Transactions" headerAction={<Button variant="ghost" size="sm" className="text-xs" onClick={() => toast.info("Transaction Ledger", { description: "Directing you to your full monthly transaction statement." })}>View All</Button>}>
                <div className="overflow-x-auto">
                   <table className="w-full text-sm">
                      <thead>

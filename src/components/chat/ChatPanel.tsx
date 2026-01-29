@@ -59,10 +59,20 @@ export function ChatPanel({ className }: ChatPanelProps) {
       <div className="flex items-center justify-between p-3 border-b border-border bg-background/50 backdrop-blur-sm">
         <h3 className="font-semibold text-sm uppercase tracking-wide text-[var(--cs-cyan)]">Stream Chat</h3>
         <div className="flex items-center gap-1">
-          <Button variant="ghost" size="icon-sm" className="hover:text-[var(--cs-green)]">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="hover:text-[var(--cs-green)]"
+            onClick={() => toast.info("Community List", { description: "Viewing all people joined in this channel." })}
+          >
             <Users className="h-4 w-4" />
           </Button>
-          <Button variant="ghost" size="icon-sm" className="hover:text-[var(--cs-yellow)]">
+          <Button
+            variant="ghost"
+            size="icon-sm"
+            className="hover:text-[var(--cs-yellow)]"
+            onClick={() => toast.info("Chat Settings", { description: "Adjust your chat appearance and visibility preferences." })}
+          >
             <Settings className="h-4 w-4" />
           </Button>
         </div>
@@ -103,13 +113,23 @@ export function ChatPanel({ className }: ChatPanelProps) {
               className="pr-20 border-border bg-black/20 focus-visible:ring-[var(--cs-cyan)] transition-all"
             />
             <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
-              <Button variant="ghost" size="icon-sm" className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-yellow)]">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-yellow)]"
+                onClick={() => toast.info("Emoji Picker", { description: "Select emotes and stickers for your message." })}
+              >
                 <Smile className="h-4 w-4" />
               </Button>
               <Button variant="ghost" size="icon-sm" className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-cyan)]" onClick={() => setIsTipModalOpen(true)}>
                 <Zap className="h-4 w-4" />
               </Button>
-              <Button variant="ghost" size="icon-sm" className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-magenta)]">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="h-6 w-6 text-muted-foreground hover:text-[var(--cs-magenta)]"
+                onClick={() => setIsTipModalOpen(true)}
+              >
                 <Gift className="h-4 w-4" />
               </Button>
             </div>

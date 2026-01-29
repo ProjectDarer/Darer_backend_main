@@ -3,6 +3,7 @@ import { StreamCard } from '@/components/cards/StreamCard';
 import { channels } from '@/data/dummy';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export default function Home() {
   const liveChannels = channels.filter(c => c.isLive);
@@ -27,62 +28,55 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Hero Section - Featured Stream */}
-        <section className="relative rounded-xl overflow-hidden bg-gradient-to-br from-[var(--cs-magenta)]/10 via-background to-[var(--cs-cyan)]/10 border border-white/5 group">
-          <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px_32px]" />
-          <div className="relative p-6">
-            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-6 flex items-center gap-2">
-              <span className="w-8 h-px bg-[var(--cs-magenta)]" />
-              Featured Broadcast
-            </h2>
-            <div className="grid lg:grid-cols-2 gap-6">
-              <div className="aspect-video rounded-lg overflow-hidden bg-twitch-surface relative group/video">
-                <img
-                  src={liveChannels[0]?.thumbnail}
-                  alt={liveChannels[0]?.streamTitle}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover/video:scale-105"
-                />
-                <div className="absolute top-3 left-3 flex items-center gap-2 text-white">
-                  <span className="px-2 py-0.5 bg-[var(--cs-magenta)] text-xs font-bold uppercase rounded flex items-center gap-1 shadow-[0_0_10px_var(--cs-glow-soft)]">
-                    <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse-live" />
-                    Live
+        {/* Hero Section - Intro Video */}
+        <section className="relative rounded-2xl overflow-hidden bg-black border border-white/10 group shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+          <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px_32px] z-10 pointer-events-none" />
+
+          <div className="relative aspect-video md:aspect-[21/9] w-full overflow-hidden">
+            <video
+              src="/original-b90ed611e3408cf48d85ca6a7540234b.mp4"
+              className="w-full h-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+
+            {/* Overlay Content */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent z-20 flex flex-col justify-end p-8 md:p-12">
+              <div className="max-w-2xl animate-in fade-in slide-in-from-bottom-8 duration-1000">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="px-3 py-1 bg-[var(--cs-magenta)] text-white text-xs font-black uppercase rounded shadow-[0_0_15px_var(--cs-magenta)] tracking-widest">
+                    Featured
                   </span>
-                  <span className="px-2 py-0.5 bg-background/80 backdrop-blur-sm text-xs font-medium rounded text-[var(--cs-cyan)] border border-[var(--cs-cyan)]/30">
-                    {(liveChannels[0]?.viewers / 1000).toFixed(1)}K viewers
+                  <span className="px-3 py-1 bg-black/40 backdrop-blur-md text-[var(--cs-cyan)] text-xs font-bold rounded border border-[var(--cs-cyan)]/30">
+                    Intro Experience
                   </span>
                 </div>
-              </div>
-              <div className="flex flex-col justify-center">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="relative">
-                    <img
-                      src={liveChannels[0]?.avatar}
-                      alt={liveChannels[0]?.displayName}
-                      className="w-12 h-12 rounded-full border-2 border-[var(--cs-cyan)]"
-                    />
-                    <div className="absolute inset-0 rounded-full ring-2 ring-[var(--cs-cyan)] ring-offset-2 ring-offset-background animate-pulse-slow opacity-50"></div>
-                  </div>
-                  <div>
-                    <h2 className="font-bold text-lg text-gradient">{liveChannels[0]?.displayName}</h2>
-                    <p className="text-sm text-[var(--cs-green)]">{liveChannels[0]?.category}</p>
-                  </div>
+                <h2 className="text-3xl md:text-5xl font-black italic tracking-tighter mb-4 text-white leading-tight">
+                  THE FUTURE OF <span className="text-gradient">COMPETITIVE</span> STREAMING
+                </h2>
+                <p className="text-gray-300 text-lg mb-8 line-clamp-2 md:line-clamp-none max-w-xl font-medium">
+                  Experience the next evolution of live entertainment. Darer is where the community sets the challenges and legends are born.
+                </p>
+                <div className="flex gap-4">
+                  <Link to="/signup">
+                    <button className="btn-cyber-brand h-12 px-8 text-sm group transition-all hover:scale-105">
+                      Join the Evolution
+                    </button>
+                  </Link>
+                  <button
+                    onClick={() => toast.info("Darer Platform Guide", { description: "You are being redirected to our interactive onboarding tour." })}
+                    className="h-12 px-8 rounded-lg bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all font-bold text-sm"
+                  >
+                    Learn More
+                  </button>
                 </div>
-                <h3 className="text-xl font-semibold mb-3">{liveChannels[0]?.streamTitle}</h3>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {liveChannels[0]?.tags.map((tag) => (
-                    <span key={tag} className="px-2 py-1 bg-muted border border-border text-xs rounded hover:border-[var(--cs-yellow)] hover:text-[var(--cs-yellow)] transition-colors cursor-pointer text-foreground">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <Link
-                  to={`/channel/${liveChannels[0]?.username}`}
-                  className="inline-flex items-center gap-2 text-[var(--cs-cyan)] hover:text-[var(--cs-green)] hover:underline font-medium transition-colors"
-                >
-                  Watch Now <ChevronRight className="h-4 w-4" />
-                </Link>
               </div>
             </div>
+
+            {/* Scanning Effect Overlay */}
+            <div className="absolute inset-0 pointer-events-none z-30 opacity-20 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_2px,3px_100%]" />
           </div>
         </section>
 

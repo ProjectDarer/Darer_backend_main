@@ -1,10 +1,12 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -22,6 +24,11 @@ export default function Login() {
       // For demo, show error on empty fields
       if (!email || !password) {
         setError('Please fill in all fields');
+      } else {
+        toast.success('Successfully logged in!', {
+          description: `Welcome back to DARER! Redirecting you home...`
+        });
+        setTimeout(() => navigate('/'), 1000);
       }
     }, 1500);
   };

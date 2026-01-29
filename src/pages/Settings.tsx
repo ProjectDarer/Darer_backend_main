@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -24,18 +24,37 @@ export default function Settings() {
   const [email, setEmail] = useState(userProfile.email);
   const [bio, setBio] = useState(userProfile.bio);
   const [saved, setSaved] = useState(false);
+  const [user_data,setuser_data] = useState(null);
 
   const tabs = [
     { id: 'general' as const, label: 'General', icon: User },
-    { id: 'security' as const, label: 'Security', icon: Shield },
-    { id: 'notifications' as const, label: 'Notifications', icon: Bell },
-    { id: 'appearance' as const, label: 'Appearance', icon: Palette },
-    { id: 'connections' as const, label: 'Connections', icon: Link2 },
+    // { id: 'security' as const, label: 'Security', icon: Shield },
+    // { id: 'notifications' as const, label: 'Notifications', icon: Bell },
+    // { id: 'appearance' as const, label: 'Appearance', icon: Palette },
+    // { id: 'connections' as const, label: 'Connections', icon: Link2 },
   ];
-
+  useEffect(()=>{
+    const fetchuser = async()=>{
+      const res = await fetch("http://localhost:8080/api/get_profiledata");
+      const res_data = await res.json();
+      setuser_data(res_data.data);
+    };
+    fetchuser();
+  },[]);
   const handleSave = () => {
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+    const saveProfileresponse = fetch("http://localhost:8080/api/updateProfile",{
+      method:"POST",
+      headers:{
+        "Content-type":"application/json",
+      },
+      body:JSON.stringify({
+        username:username,
+        bio:bio,
+        // profile_picture:profile_picture,
+      })
+    });
   };
 
   return (
@@ -151,11 +170,11 @@ export default function Settings() {
             )}
 
             {/* Other tabs follow similar styling patterns */}
-            {activeTab === 'security' && (
+            {/* {activeTab === 'security' && (
               <div className="space-y-6">
-                <h2 className="text-xl font-semibold text-[var(--cs-cyan)]">Security Settings</h2>
+                <h2 className="text-xl font-semibold text-[var(--cs-cyan)]">Security Settings</h2> */}
                 {/* ... existing structure with updated inputs ... */}
-                <div className="space-y-4">
+                {/* <div className="space-y-4">
                   <div className="p-4 bg-background/50 rounded-lg border border-border">
                     <h3 className="font-medium mb-2">Change Password</h3>
                     <div className="space-y-3">
@@ -167,10 +186,10 @@ export default function Settings() {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
 
             {/* Appearance Tab with Brand Colors */}
-            {activeTab === 'appearance' && (
+            {/* {activeTab === 'appearance' && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-[var(--cs-cyan)]">Appearance</h2>
                 
@@ -195,7 +214,6 @@ export default function Settings() {
                   <div className="p-4 bg-background/50 rounded-lg border border-border">
                     <h3 className="font-medium mb-4">Accent Color</h3>
                     <div className="flex gap-3">
-                      {/* Updated colors to match brand variables */}
                       {['#ff00ff', '#00fff7', '#39ff14', '#ffff00'].map((color) => (
                         <button 
                           key={color}
@@ -209,9 +227,9 @@ export default function Settings() {
                   </div>
                 </div>
               </div>
-            )}
+            )} */}
             
-            {activeTab === 'notifications' && (
+            {/* {activeTab === 'notifications' && (
                  <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-[var(--cs-cyan)]">Notification Preferences</h2>
                  <div className="space-y-4">
@@ -231,9 +249,9 @@ export default function Settings() {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
             
-             {activeTab === 'connections' && (
+             {/* {activeTab === 'connections' && (
               <div className="space-y-6">
                 <h2 className="text-xl font-semibold text-[var(--cs-cyan)]">Connected Accounts</h2>
                 <div className="space-y-4">
@@ -258,7 +276,7 @@ export default function Settings() {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
 
           </div>
         </div>

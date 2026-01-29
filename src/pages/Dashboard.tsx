@@ -1,10 +1,14 @@
-import { useState } from 'react';
+
 import { MainLayout } from '@/components/layout/MainLayout';
 import { WidgetCard } from '@/components/widgets/WidgetCard';
 import { ChatPanel } from '@/components/chat/ChatPanel';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { userProfile, notifications } from '@/data/dummy';
+import { Room } from "livekit-client";
+import { RoomEvent } from 'livekit-client';
+import { useState, useRef } from "react";
+import { createLocalAudioTrack } from "livekit-client";
 import { 
   Play, 
   Settings, 
@@ -21,6 +25,7 @@ import {
   Radio
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { createLocalVideoTrack } from 'livekit-client';
 
 export default function Dashboard() {
   const [streamTitle, setStreamTitle] = useState('My Amazing Stream 🎮');
@@ -28,6 +33,12 @@ export default function Dashboard() {
   const [tags, setTags] = useState(['English', 'Chill', 'Interactive']);
   const [showStreamKey, setShowStreamKey] = useState(false);
   const [isLive, setIsLive] = useState(false);
+  const videoRef = useRef(null);
+  const roomRef = useRef(null);
+  const fileInputRef = useRef(null);
+  const [thumbnail, setThumbnail] = useState(null);
+  const [live_data,setlive_data] = useState("");
+
 
   const streamStats = {
     viewers: 1234,
@@ -36,6 +47,81 @@ export default function Dashboard() {
     uptime: '2h 15m',
     peakViewers: 2156,
   };
+  const handle_golive = async () => {
+    try {
+      const jwtToken = localStorage.getItem("token");
+      const formData = new FormData();
+      formData.append("title", streamTitle);
+      formData.append("thumbnail", thumbnail); // File object
+      // 1️⃣ Call backend
+      const response = await fetch("http://localhost:3000/api/start_live", {
+        method: "POST",
+        credentials : "include",
+        body: formData,
+      });
+      console.log(response);
+      if (!response.ok) {
+        throw new Error("Failed to start live");
+      }
+      const data = await response.json();
+      console.log(data);
+      setlive_data(data);
+      const wsUrl = data.wsUrl;
+      const token = data.token;
+      console.log("permission is asking for camera and audio");
+      
+      // 3️⃣ Create LiveKit room
+      
+      const room = new Room();
+      console.log("room created");
+      // 4️⃣ Connect to LiveKit
+      
+      room.on(RoomEvent.Connected, () => {
+        console.log("✅ Connected to LiveKit room");
+      });
+      
+      room.on(RoomEvent.Disconnected, () => {
+        console.log("❌ Disconnected from room");
+      });
+      console.log("wsUrl:", wsUrl);
+      console.log("token:", token);
+      
+      try {
+        await room.connect(wsUrl, token);
+        console.log("🎉 Ready to publish tracks");
+      } catch (error) {
+        console.error("🚨 Connection failed:", error.message);
+      }
+      // 2️⃣ Get camera + mic
+      // Save room globally
+      roomRef.current = room;
+
+      // 🎥 Create camera track
+      const videoTrack = await createLocalVideoTrack({
+        resolution: { width: 1280, height: 720 }
+      });
+
+      // Attach to preview
+      if (videoRef.current) {
+        videoTrack.attach(videoRef.current);
+      }
+
+      // Publish to LiveKit
+      await room.localParticipant.publishTrack(videoTrack);
+      const audioTrack = await createLocalAudioTrack();
+
+      // Publish audio
+      await room.localParticipant.publishTrack(audioTrack);
+
+      console.log("🔴 LIVE STREAM STARTED");
+      setIsLive(true);
+    } catch (err) {
+      console.error("Go Live error:", err);
+    }
+};
+
+
+
 
   const recentActivity = notifications.slice(0, 5);
 
@@ -73,9 +159,10 @@ export default function Dashboard() {
                     ? "bg-red-600 hover:bg-red-700 text-white shadow-[0_0_15px_rgba(220,38,38,0.5)]" 
                     : "btn-cyber-brand"
                 )}
-                onClick={() => setIsLive(!isLive)}
+                onClick={handle_golive}
               >
-                {isLive ? 'End Stream' : 'Go Live'}
+                {/* {isLive ? 'End Stream' : 'Go Live'} */}
+                GO LIVE
               </button>
             </div>
           </div>
@@ -86,14 +173,43 @@ export default function Dashboard() {
               {/* Stream Info */}
               <WidgetCard title="Stream Information">
                 <div className="space-y-4">
+                  {/* LIVE PREVIEW */}
+                  <div className="aspect-video w-full rounded-xl bg-black border border-border overflow-hidden">
+                    <video
+                      ref={videoRef}
+                      autoPlay
+                      muted
+                      playsInline
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+
                   {/* Thumbnail */}
                   <div>
                     <label className="text-sm font-medium mb-2 block text-[var(--cs-yellow)]">Stream Thumbnail</label>
-                    <div className="aspect-video w-full max-w-xs rounded-lg bg-twitch-hover border-2 border-dashed border-border flex flex-col items-center justify-center cursor-pointer hover:border-[var(--cs-green)] hover:bg-[var(--cs-green)]/5 transition-colors group">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      ref={fileInputRef}
+                      className="hidden"
+                      onChange={(e) => setThumbnail(e.target.files[0])}
+                    />
+
+                    <div
+                      onClick={() => fileInputRef.current.click()}
+                      className="aspect-video w-full max-w-xs rounded-lg bg-twitch-hover border-2 border-dashed border-border flex flex-col items-center justify-center cursor-pointer hover:border-[var(--cs-green)] hover:bg-[var(--cs-green)]/5 transition-colors group"
+                    >
                       <Upload className="h-8 w-8 text-muted-foreground mb-2 group-hover:text-[var(--cs-green)]" />
-                      <span className="text-sm text-muted-foreground group-hover:text-[var(--cs-green)]">Click to upload</span>
+                      <span className="text-sm text-muted-foreground group-hover:text-[var(--cs-green)]">
+                        Click to upload
+                      </span>
                     </div>
                   </div>
+                  {/* <img
+                    src={`http://localhost:8080${live_data.thumbnail}`}
+                    alt={live_data.title}
+                    className="rounded-lg w-full h-40 object-cover"
+                  /> */}
 
                   {/* Title */}
                   <div>

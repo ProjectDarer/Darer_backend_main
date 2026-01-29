@@ -28,15 +28,15 @@ const App = () => (
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
+          {/* <Route path="/forgot-password" element={<ForgotPassword />} /> */}
           <Route path="/browse" element={<Browse />} />
           <Route path="/browse/:categoryId" element={<Browse />} />
           <Route path="/channel/:username" element={<Channel />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/following" element={<Following />} />
-          <Route path="/notifications" element={<Notifications />} />
+          {/* <Route path="/notifications" element={<Notifications />} /> */}
           <Route path="/settings" element={<Settings />} />
-          <Route path="/analytics" element={<Analytics />} />
+          {/* <Route path="/analytics" element={<Analytics />} /> */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -16,7 +16,7 @@ const navItems = [
 ];
 
 const bottomItems = [
-  { icon: Bell, label: 'Notifications', path: '/notifications' },
+  // { icon: Bell, label: 'Notifications', path: '/notifications' },
   { icon: Settings, label: 'Settings', path: '/settings' },
 ];
 

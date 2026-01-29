@@ -11,29 +11,34 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  const handleSubmit = async () => {
+    console.log("handle summit triggered");
+    // setLoading(true);
+    // setError('');
     // Simulate API call
-    setTimeout(() => {
-      setLoading(false);
-      // For demo, show error on empty fields
-      if (!email || !password) {
-        setError('Please fill in all fields');
-      }
-    }, 1500);
+    // setTimeout(() => {
+    //   setLoading(false);
+    //   // For demo, show error on empty fields
+    //   if (!email || !password) {
+    //     setError('Please fill in all fields');
+    //   }
+    // }, 1500);
     try{
-      const login_response = fetch("http://localhost:8080/api/login",{
+      const login_response = await fetch("http://localhost:3000/api/login",{
         method: "POST",
         headers:{
           "Content-type":"application/json",   //it tells the browser/server that the data it is sending is raw which is not human readable
         },
+        credentials: "include",
         body:JSON.stringify({
           email: email,
           password:password,
-        }),
+        })
       });
+      if(!login_response.ok){
+        throw new Error("user didn't found, please signup to continue");
+      }
+      console.log(login_response);
     }
     catch(error){
       console.error("error occured while making login post request: ",error);

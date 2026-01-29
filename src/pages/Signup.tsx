@@ -36,11 +36,12 @@ export default function Signup() {
     }, 1500);
 
     try{
-      const login_response = fetch("http://localhost:8080/api/signup",{
+      const login_response = await fetch("http://localhost:3000/api/signup",{
         method: "POST",
         headers:{
           "Content-type":"application/json",   //it tells the browser/server that the data it is sending is raw which is not human readable
         },
+        credentials: "include",
         body:JSON.stringify({
           username:username,
           email: email,
@@ -48,6 +49,10 @@ export default function Signup() {
           dob:dob,
         }),
       });
+      if(!login_response.ok){
+        throw new Error("signup failed");
+      }
+
     }
     catch(error){
       console.error("error occured while making signup post request: ",error);

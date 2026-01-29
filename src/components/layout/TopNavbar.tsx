@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, Bell, User, ChevronDown, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,7 +13,16 @@ export function TopNavbar() {
   const [showNotifications, setShowNotifications] = useState(false);
 
   const unreadCount = notifications.filter(n => !n.read).length;
+  const navigate = useNavigate();
+  const handleLogout =async ()=>{
+    const logout_response = await fetch("http://localhost:8080/api/auth/logout", {
+      method: "POST",
+      credentials: "include", // VERY IMPORTANT
+    });
 
+    // optional: clear frontend state
+    navigate("/login");
+  };
   return (
     <header className="fixed top-0 left-0 right-0 h-14 bg-twitch-surface/95 backdrop-blur-md border-b border-border z-50">
       <div className="h-full flex items-center justify-between px-4">
@@ -65,7 +74,7 @@ export function TopNavbar() {
           </Button>
 
           {/* Notifications */}
-          <div className="relative">
+          {/* <div className="relative">
             <Button
               variant="ghost"
               size="icon"
@@ -78,10 +87,10 @@ export function TopNavbar() {
                   {unreadCount}
                 </span>
               )}
-            </Button>
+            </Button> */}
 
             {/* Notifications Dropdown */}
-            {showNotifications && (
+            {/* {showNotifications && (
               <div className="absolute right-0 top-full mt-2 w-80 bg-twitch-surface border border-[var(--cs-green)]/30 rounded-lg shadow-[0_0_30px_rgba(0,0,0,0.5)] animate-fade-in overflow-hidden">
                 <div className="p-3 border-b border-border flex items-center justify-between bg-[var(--cs-green)]/5">
                   <h3 className="font-semibold text-[var(--cs-green)]">Notifications</h3>
@@ -111,8 +120,8 @@ export function TopNavbar() {
                   ))}
                 </div>
               </div>
-            )}
-          </div>
+            )} */}
+          {/* </div> */}
 
           {/* User Menu */}
           <div className="relative">
@@ -152,7 +161,7 @@ export function TopNavbar() {
                   <Link to="/settings" className="block px-4 py-2 text-sm hover:bg-[var(--cs-cyan)]/10 hover:text-[var(--cs-cyan)] transition-colors">Settings</Link>
                 </div>
                 <div className="border-t border-border py-1">
-                  <Link to="/login" className="block px-4 py-2 text-sm text-[var(--cs-magenta)] hover:bg-[var(--cs-magenta)]/10 transition-colors">Log Out</Link>
+                  <button onClick={handleLogout} className="block px-4 py-2 text-sm text-[var(--cs-magenta)] hover:bg-[var(--cs-magenta)]/10 transition-colors">Log Out</button>
                 </div>
               </div>
             )}
